@@ -14,7 +14,7 @@ public class DaoUtil {
         try{
             String url = "jdbc:postgresql://localhost:5432/lanchonete";
             String usuario = "postgres";
-            String senha = "123456";
+            String senha = "postgres";
             return DriverManager.getConnection(url, usuario, senha);
             
         }catch(Exception e){

@@ -1,7 +1,7 @@
-CREATE DATABASE lanchonete
-ENCODING = 'UTF-8'
-TEMPLATE template0
-
+-- CREATE DATABASE lanchonete
+-- ENCODING = 'UTF-8'
+-- TEMPLATE template0
+-- comentado porque o banco ja havia sido criado manualmente
 ---------------------------------------------
 
 CREATE TABLE tb_funcionarios(
