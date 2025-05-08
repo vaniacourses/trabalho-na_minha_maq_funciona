@@ -1,64 +1,177 @@
-# Como Rodar o Sistema da Lanchonete Online
+# Como Executar o Projeto
 
-Este guia vai te ajudar a rodar o sistema da Lanchonete Online no seu computador.
+Este guia vai te ajudar a configurar e executar o projeto da lanchonete do zero.
 
-## 1. Pré-requisitos
+## Pré-requisitos
 
-Antes de começar, certifique-se de ter instalado:
-- Java JDK 11 ou superior
-- PostgreSQL 14 ou superior
-- Glassfish/Payara Server 6 ou superior
-- Apache Ant (opcional, apenas se precisar recompilar o projeto)
+1. Java 17 ou superior
+2. PostgreSQL 12 ou superior
+3. Payara Server 6
 
-## 2. Configure o Banco de Dados
+## Passo 1: Configurar o Banco de Dados
 
-### Credenciais do PostgreSQL
-As credenciais do banco de dados estão configuradas no arquivo `src/java/br/com/aps/dao/Conexao.java`. 
-Por padrão, o sistema usa:
-- Usuário: postgres
-- Senha: postgres
-- Banco: lanchonete
-- Host: localhost
-- Porta: 5432
+1. Abra o terminal e conecte ao PostgreSQL:
+```bash
+psql -U postgres
+```
 
-Se suas credenciais forem diferentes, você precisará alterar este arquivo antes de prosseguir.
+2. Crie o banco de dados:
+```sql
+CREATE DATABASE lanchonete ENCODING 'UTF-8' TEMPLATE template0;
+```
 
-### Criar o Banco de Dados `lanchonete`
+3. Saia do PostgreSQL:
+```sql
+\q
+```
 
-1. Abra o terminal (ou prompt de comando).
-2. Execute o comando:
-   ```sh
-   createdb -U postgres lanchonete
-   ```
-   (Substitua `postgres` pelo seu usuário do PostgreSQL.)
+4. Execute o script de criação das tabelas:
+```bash
+psql -U postgres -d lanchonete -f banco.sql
+```
 
-### Executar o Script do Banco
+5. Crie o usuário administrador:
+```bash
+psql -U postgres -d lanchonete -c "INSERT INTO tb_funcionarios (nome, sobrenome, usuario, senha, cargo, salario, fg_ativo) VALUES ('Admin', 'Sistema', 'admin', MD5('admin123'), 'Administrador', 5000.00, 1);"
+```
 
-1. Abra o terminal (ou prompt de comando) e execute o script do banco:
-   ```sh
-   psql -U postgres -d lanchonete -f banco.sql
-   ```
-   (Substitua `postgres` pelo seu usuário do PostgreSQL.)
+## Passo 2: Configurar o Payara Server
 
-## 3. Inicie o Glassfish Server
+1. Inicie o Payara Server:
+```bash
+asadmin start-domain
+```
 
-1. Abra o terminal e execute:
-   ```sh
-   asadmin start-domain
-   ```
+2. Verifique se o servidor está rodando:
+```bash
+asadmin list-domains
+```
 
-## 4. Faça o Deploy da Aplicação
+## Passo 3: Compilar o Projeto
 
-1. O arquivo WAR já está na pasta `dist/`
-2. Execute o comando:
-   ```sh
-   asadmin deploy dist/APS-04.war
-   ```
+1. Compile o projeto usando o Apache Ant:
+```bash
+ant clean
+ant
+```
 
-## 5. Acesse o Sistema
+O arquivo WAR será gerado em `dist/APS-04.war`
 
-Abra o navegador e acesse:  
-http://localhost:8080/APS-04
+## Passo 4: Deploy da Aplicação
+
+1. Faça o deploy no Payara:
+```bash
+asadmin deploy dist/APS-04.war
+```
+
+## Passo 5: Acessar o Sistema
+
+1. Acesse a página inicial:
+   - http://localhost:8080/APS-04/view/home/home.html
+
+2. Para acessar como administrador:
+   - Clique em "Login Funcionário"
+   - Usuário: `admin`
+   - Senha: `admin123`
+   - URL: http://localhost:8080/APS-04/view/login/login_Funcionario.html
+
+3. Para acessar como cliente:
+   - Clique em "Cadastro" para criar uma conta
+   - Ou use uma conta existente
+   - URL: http://localhost:8080/APS-04/view/login/login.html
+
+## Solução de Problemas
+
+### Banco de Dados
+
+Se precisar recriar o banco do zero:
+```bash
+# Conecte ao PostgreSQL
+psql -U postgres
+
+# Remova o banco se existir
+DROP DATABASE IF EXISTS lanchonete;
+
+# Saia do PostgreSQL
+\q
+
+# Volte ao Passo 1 para recriar o banco
+```
+
+### Servidor
+
+Se o Payara não iniciar:
+1. Verifique se a porta 8080 está livre:
+```bash
+lsof -i :8080
+```
+
+2. Se houver algum processo usando a porta, encerre-o:
+```bash
+kill -9 <PID>
+```
+
+3. Tente iniciar novamente:
+```bash
+asadmin start-domain
+```
+
+### Deploy
+
+Se o deploy falhar:
+1. Remova o deploy anterior:
+```bash
+asadmin undeploy APS-04
+```
+
+2. Limpe o cache do servidor:
+```bash
+asadmin stop-domain
+rm -rf ~/.payara/cache/*
+asadmin start-domain
+```
+
+3. Tente o deploy novamente:
+```bash
+asadmin deploy dist/APS-04.war
+```
+
+### Login
+
+Se o login falhar:
+1. Verifique se o usuário admin existe:
+```bash
+psql -U postgres -d lanchonete -c "SELECT usuario, senha FROM tb_funcionarios WHERE usuario = 'admin';"
+```
+
+2. Se necessário, recrie o usuário admin:
+```bash
+psql -U postgres -d lanchonete -c "DELETE FROM tb_funcionarios WHERE usuario = 'admin';"
+psql -U postgres -d lanchonete -c "INSERT INTO tb_funcionarios (nome, sobrenome, usuario, senha, cargo, salario, fg_ativo) VALUES ('Admin', 'Sistema', 'admin', MD5('admin123'), 'Administrador', 5000.00, 1);"
+```
+
+## Estrutura do Projeto
+
+```
+APS-04/
+├── src/
+│   ├── java/
+│   │   ├── Controllers/    # Controladores da aplicação
+│   │   ├── DAO/           # Acesso ao banco de dados
+│   │   ├── Models/        # Modelos de dados
+│   │   └── Helpers/       # Classes auxiliares
+│   └── web/
+│       ├── view/          # Páginas HTML
+│       ├── css/           # Estilos CSS
+│       └── js/            # Scripts JavaScript
+├── lib/                   # Bibliotecas externas
+└── dist/                  # Arquivos compilados
+```
+
+## Portas Utilizadas
+- 8080: Aplicação web
+- 4848: Painel administrativo do Payara
+- 5432: PostgreSQL
 
 ## 6. Informações Adicionais
 
@@ -67,11 +180,6 @@ http://localhost:8080/APS-04
 - Usuário padrão: admin
 - Senha padrão: (vazia)
 
-### Portas Utilizadas
-- 8080: Aplicação web
-- 4848: Painel administrativo do Glassfish
-- 5432: PostgreSQL
-
 ### Recompilação do Projeto (se necessário)
 Se precisar recompilar o projeto, use os comandos:
 ```sh
@@ -79,20 +187,6 @@ ant clean
 ant
 ```
 
-## 7. Solução de Problemas
-
-### Banco de Dados
-- Se o banco já existir, você pode ignorar o erro ao criar
-- Se as tabelas já existirem, você pode ignorar os erros ao executar o script SQL
-
-### Glassfish
-- Se o servidor não iniciar, verifique se a porta 4848 está disponível
-- Se o deploy falhar, verifique se o arquivo WAR existe na pasta dist/
-
-### Aplicação
-- Se a aplicação não abrir, verifique se o Glassfish está rodando
-- Verifique se todas as portas necessárias estão disponíveis
-
-## 8. Dúvidas?
+## 7. Dúvidas?
 
 Se tiver dúvidas, consulte a documentação do Java, Glassfish, PostgreSQL e Apache Ant, ou peça ajuda a alguém com mais experiência! 

@@ -1,0 +1,92 @@
+# Arquivos compilados
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Diretórios de build
+build/
+dist/
+target/
+out/
+bin/
+
+# Arquivos do IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+log/
+
+# Arquivos temporários
+*.tmp
+*.temp
+*.swp
+*~
+
+# Arquivos de configuração local
+application.properties
+application.yml
+application-local.properties
+application-local.yml
+
+# Arquivos do Payara/Glassfish
+glassfish/
+payara/
+domain1/
+domains/
+glassfish-resources.xml
+
+# Arquivos do Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# Arquivos do Gradle
+.gradle/
+gradle/
+gradlew
+gradlew.bat
+
+# Arquivos de cache
+.cache/
+.npm/
+node_modules/
+
+# Arquivos de ambiente
+.env
+.env.local
+.env.*.local
+
+# Arquivos de backup
+*.bak
+*.backup
+*_backup
+
+# Arquivos de teste
+test-output/
+coverage/
+.nyc_output/
+
+# Arquivos específicos do projeto
+banco.sql
+*.sql
+*.sqlite
+*.db 

@@ -352,3 +352,11 @@ function dadosDoLanche(){
     dados['ingredientes'] = ingredientes;
     return dados
 }
+
+function abrirLanchonete() {
+    requisicao("../../abrirLanchonete", resolver);
+}
+
+function fecharLanchonete() {
+    requisicao("../../fecharLanchonete", resolver);
+}

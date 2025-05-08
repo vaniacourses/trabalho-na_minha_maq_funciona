@@ -10,6 +10,14 @@ import java.sql.DriverManager;
 
 public class DaoUtil {
     
+    static {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Erro ao carregar o driver do PostgreSQL", e);
+        }
+    }
+    
     public Connection conecta(){
         try{
             String url = "jdbc:postgresql://localhost:5432/lanchonete";
