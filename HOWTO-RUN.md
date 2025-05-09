@@ -173,9 +173,9 @@ APS-04/
 - 4848: Painel administrativo do Payara
 - 5432: PostgreSQL
 
-## 6. Informações Adicionais
+## Informações Adicionais
 
-### Painel Administrativo do Glassfish
+### Painel Administrativo do Payara
 - URL: http://localhost:4848
 - Usuário padrão: admin
 - Senha padrão: (vazia)
@@ -187,6 +187,6 @@ ant clean
 ant
 ```
 
-## 7. Dúvidas?
+## Dúvidas?
 
-Se tiver dúvidas, consulte a documentação do Java, Glassfish, PostgreSQL e Apache Ant, ou peça ajuda a alguém com mais experiência! 
+Se tiver dúvidas, consulte a documentação do Java, Payara, PostgreSQL e Apache Ant, ou peça ajuda a alguém com mais experiência! 
