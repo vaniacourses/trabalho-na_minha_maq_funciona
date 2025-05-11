@@ -15,7 +15,7 @@
     <property name="web.dir" location="web"/>
     <property name="build.dir" location="build"/>
     <property name="dist.dir" location="dist"/>
-    <property name="lib.dir" location="lib"/>
+    <property name="lib.dir" location="libraries"/> <!-- Alterado de lib para libraries -->
     
     <!-- Classpath com as bibliotecas -->
     <path id="compile.classpath">
