@@ -114,3 +114,10 @@ CREATE TABLE tb_tokens(
 	token       TEXT CONSTRAINT tb_tokens_token_nn NOT NULL UNIQUE,
 	CONSTRAINT pk_tb_tokens_id_token PRIMARY KEY (id_token)
 );
+
+-- Inserindo um funcionário admin padrão
+INSERT INTO tb_funcionarios (
+  nome, sobrenome, usuario, senha, cargo, salario, cad_por, fg_ativo
+) VALUES (
+  'Admin', 'Master', 'admin', 'admin123', 'Administrador', 9999.99, NULL, 1
+);
