@@ -27,55 +27,90 @@ Para a manipulação de Arquivos JSON dentro do Código Java, e de um Banco de D
 
 Este é um sistema web para gerenciamento de uma lanchonete, permitindo clientes fazerem pedidos e funcionários gerenciarem produtos e pedidos.
 
+## Pré-requisitos
+- Docker instalado
+- Docker Compose instalado
+
+## Como Executar
+
+1. Clone o repositório:
+```bash
+git clone [URL_DO_REPOSITÓRIO]
+cd [NOME_DO_DIRETÓRIO]
+```
+
+2. Execute o projeto usando Docker Compose:
+```bash
+docker-compose up --build
+```
+
+Este comando irá:
+- Construir a imagem da aplicação
+- Iniciar o container do PostgreSQL
+- Executar o script de inicialização do banco de dados
+- Iniciar a aplicação
+
+## Acessando a Aplicação
+- A aplicação estará disponível em: `http://localhost:8080`
+- Página inicial: `http://localhost:8080/view/home/home.html`
+- O banco de dados PostgreSQL estará disponível em:
+  - Host: localhost
+  - Porta: 5432
+  - Banco: lanchonete
+  - Usuário: postgres
+  - Senha: postgres
+
+## Credenciais Padrão
+- Usuário admin: admin
+- Senha admin: admin123
+
+## Comandos Úteis
+
+Para parar a aplicação:
+```bash
+docker-compose down
+```
+
+Para ver os logs:
+```bash
+docker-compose logs -f
+```
+
+Para reconstruir e reiniciar os containers:
+```bash
+docker-compose up --build --force-recreate
+```
+
+## Estrutura do Projeto
+- `docker-compose.yml`: Configuração dos serviços Docker
+- `Dockerfile`: Instruções para construir a imagem da aplicação
+- `banco.sql`: Script de inicialização do banco de dados
+- `src/`: Código fonte da aplicação
+- `web/`: Arquivos da interface web
+
 ## Rotas Disponíveis
 
 ### Usuário Comum (Cliente)
-- `/view/home/home.html` - Página inicial
-- `/view/menu/menu.html` - Cardápio com lanches e bebidas
-- `/view/montarLanche/montarLanche.html` - Monte seu próprio lanche
-- `/view/carrinho/carrinho.html` - Carrinho de compras
-- `/view/cadastro/cadastro.html` - Cadastro de novo cliente
-- `/view/login/login.html` - Login de cliente
+- `http://localhost:8080/view/home/home.html` - Página inicial
+- `http://localhost:8080/view/menu/menu.html` - Cardápio com lanches e bebidas
+- `http://localhost:8080/view/montarLanche/montarLanche.html` - Monte seu próprio lanche
+- `http://localhost:8080/view/carrinho/carrinho.html` - Carrinho de compras
+- `http://localhost:8080/view/cadastro/cadastro.html` - Cadastro de novo cliente
+- `http://localhost:8080/view/login/login.html` - Login de cliente
 
 ### Administrador
-- `/view/login/login_Funcionario.html` - Login de funcionário/admin
-- `/view/painel/painel.html` - Painel de controle principal
+- `http://localhost:8080/view/login/login_Funcionario.html` - Login de funcionário/admin
+- `http://localhost:8080/view/painel/painel.html` - Painel de controle principal
   - Abrir/Fechar lanchonete
   - Cadastrar lanches
   - Cadastrar bebidas
   - Cadastrar ingredientes
   - Cadastrar funcionários
-- `/view/estoque/estoque.html` - Gerenciamento de estoque
+- `http://localhost:8080/view/estoque/estoque.html` - Gerenciamento de estoque
   - Controle de lanches
   - Controle de bebidas
   - Controle de ingredientes
-- `/view/relatorio/relatorio.html` - Relatórios
+- `http://localhost:8080/view/relatorio/relatorio.html` - Relatórios
   - Relatório de bebidas por pedidos
   - Relatório de lanches detalhado
   - Relatório de gastos
-
-## Sobre o Projeto
-
-O sistema foi desenvolvido como parte de um projeto acadêmico para demonstrar o uso de tecnologias web modernas no desenvolvimento de sistemas comerciais.
-
-## Tecnologias Utilizadas
-
-- Frontend:
-  - HTML5
-  - CSS3
-  - JavaScript
-  - Bootstrap
-
-- Backend:
-  - Java 17
-  - Servlets
-  - JSP
-  - Payara Server 6
-
-- Banco de Dados:
-  - PostgreSQL 12
-  - JDBC
-
-## Como Executar
-
-Para instruções detalhadas de como executar o projeto, consulte o arquivo [HOWTO-RUN.md](HOWTO-RUN.md).

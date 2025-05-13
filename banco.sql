@@ -119,5 +119,5 @@ CREATE TABLE tb_tokens(
 INSERT INTO tb_funcionarios (
   nome, sobrenome, usuario, senha, cargo, salario, cad_por, fg_ativo
 ) VALUES (
-  'Admin', 'Master', 'admin', 'admin123', 'Administrador', 9999.99, NULL, 1
+  'Admin', 'Master', 'admin', MD5('admin123'), 'Administrador', 9999.99, NULL, 1
 );
