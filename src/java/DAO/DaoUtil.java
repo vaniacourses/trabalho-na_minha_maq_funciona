@@ -20,15 +20,18 @@ public class DaoUtil {
     
     public Connection conecta(){
         try{
-            String url = "jdbc:postgresql://localhost:5432/lanchonete";
-            String usuario = "postgres";
-            String senha = "postgres";
+            String host = System.getenv("DB_HOST") != null ? System.getenv("DB_HOST") : "localhost";
+            String port = System.getenv("DB_PORT") != null ? System.getenv("DB_PORT") : "5432";
+            String dbName = System.getenv("DB_NAME") != null ? System.getenv("DB_NAME") : "lanchonete";
+            String usuario = System.getenv("DB_USER") != null ? System.getenv("DB_USER") : "postgres";
+            String senha = System.getenv("DB_PASSWORD") != null ? System.getenv("DB_PASSWORD") : "postgres";
+            
+            String url = String.format("jdbc:postgresql://%s:%s/%s", host, port, dbName);
             return DriverManager.getConnection(url, usuario, senha);
             
         }catch(Exception e){
             throw new RuntimeException(e);
         }
-        
     }
     
 }
