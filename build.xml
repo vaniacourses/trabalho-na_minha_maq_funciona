@@ -54,4 +54,24 @@
     
     <!-- Target padrão -->
     <target name="default" depends="clean,war"/>
+
+    <target name="test" depends="compile">
+        <echo message="Executando testes JUnit..."/>
+        
+        <junit printsummary="on" haltonfailure="false" fork="true">
+            <classpath>
+                <path refid="compile.classpath"/>
+                <pathelement path="${build.dir}"/>
+            </classpath>
+            
+            <batchtest fork="yes" todir="${build.dir}/test-results">
+                <fileset dir="${src.dir}">
+                    <include name="**/test/*Test.java"/>
+                </fileset>
+            </batchtest>
+
+            <formatter type="plain"/>
+            <formatter type="xml"/>
+        </junit>
+    </target>
 </project>
