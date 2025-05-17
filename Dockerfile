@@ -3,8 +3,8 @@ WORKDIR /app
 
 # Copiar arquivos do projeto
 COPY pom.xml .
-COPY src/java src/main/java
-COPY web src/main/webapp
+COPY src/main/java src/main/java
+COPY src/main/webapp src/main/webapp
 
 # Executar build
 RUN mvn clean package
