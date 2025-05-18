@@ -38,7 +38,6 @@ public class getRelatorioGastosTest {
 
     @Test
     public void testComTokenValido() throws Exception {
-
         Cookie[] cookies = { new Cookie("token", "abc123") };
         when(request.getCookies()).thenReturn(cookies);
         when(validador.validar(cookies)).thenReturn(true);
@@ -55,8 +54,8 @@ public class getRelatorioGastosTest {
         verify(response).setContentType("application/json");
         verify(response).setCharacterEncoding("UTF-8");
         String respostaJson = new Gson().toJson(gastos);
-        pw.flush(); // força escrita
-        assert sw.toString().contains(respostaJson);
+        pw.flush();
+        assertTrue(sw.toString().contains(respostaJson));
     }
 
     @Test
@@ -73,21 +72,18 @@ public class getRelatorioGastosTest {
 
         verify(response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         pw.flush();
-        assert sw.toString().contains("Token inválido");
+        assertTrue(sw.toString().contains("Token inválido"));
     }
 
     @Test
     public void testListaVazia() throws Exception {
-
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         when(response.getWriter()).thenReturn(pw);
 
-        // token válido
         when(request.getCookies()).thenReturn(new Cookie[] { new Cookie("token", "abc123") });
         when(validador.validar(any())).thenReturn(true);
 
-        // DAO retorna lista vazia
         when(dao.listarRelGastos()).thenReturn(Arrays.asList());
 
         servlet.processRequest(request, response);
@@ -95,7 +91,6 @@ public class getRelatorioGastosTest {
         verify(response).setContentType("application/json");
         verify(response).setCharacterEncoding("UTF-8");
 
-        // body deve ser "[]"
         pw.flush();
         String body = sw.toString();
         assertTrue(body.trim().equals("[]"),
@@ -104,7 +99,6 @@ public class getRelatorioGastosTest {
 
     @Test
     public void testErroInterno() throws Exception {
-
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         when(response.getWriter()).thenReturn(pw);
