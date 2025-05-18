@@ -2,8 +2,6 @@ package Controllers;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import java.io.StringReader;
-import java.io.BufferedReader;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
@@ -147,36 +145,5 @@ public class ComprarTest {
         double valorFinal = valorTotal - desconto;
         
         assertEquals(36.00, valorFinal);
-    }
-}
-
-// Classe auxiliar para simular ServletInputStream
-class MockServletInputStream extends jakarta.servlet.ServletInputStream {
-    private final String content;
-    private final BufferedReader reader;
-    
-    public MockServletInputStream(String content) {
-        this.content = content;
-        this.reader = new BufferedReader(new StringReader(content));
-    }
-    
-    @Override
-    public int read() throws java.io.IOException {
-        return reader.read();
-    }
-
-    @Override
-    public boolean isReady() {
-        return true;
-    }
-
-    @Override
-    public void setReadListener(jakarta.servlet.ReadListener readListener) {
-        // Implementação vazia para teste
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
     }
 }
