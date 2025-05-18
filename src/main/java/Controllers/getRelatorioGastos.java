@@ -23,6 +23,18 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author gabriel
  */
 public class getRelatorioGastos extends HttpServlet {
+    private final ValidadorCookie validador;
+    private final DaoRelatorio dao;
+
+    public getRelatorioGastos() {
+        this.validador = new ValidadorCookie();
+        this.dao = new DaoRelatorio();
+    }
+
+    public getRelatorioGastos(ValidadorCookie validador, DaoRelatorio dao) {
+        this.validador = validador;
+        this.dao = dao;
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,32 +50,29 @@ public class getRelatorioGastos extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         
-        ////////Validar Cookie
-        boolean resultado = false;
-        
-        try{
-        Cookie[] cookies = request.getCookies();
-        ValidadorCookie validar = new ValidadorCookie();
-        
-        resultado = validar.validarFuncionario(cookies);
-        }catch(java.lang.NullPointerException e){System.out.println(e);}
-        //////////////
-        
-        if(resultado){
+        try {
+            Cookie[] cookies = request.getCookies();
+            boolean resultado = validador.validar(cookies);
             
-            DaoRelatorio dr = new DaoRelatorio();
-            List<RelatorioGastos> relatorio = dr.listarRelGastos();
+            if(resultado) {
+                List<RelatorioGastos> relatorio = dao.listarRelGastos();
+                Gson gson = new Gson();
+                String json = gson.toJson(relatorio);
 
-            Gson gson = new Gson();
-            String json = gson.toJson(relatorio);
-
-        try (PrintWriter out = response.getWriter()) {
-            out.print(json);
-            out.flush();
+                try (PrintWriter out = response.getWriter()) {
+                    out.print(json);
+                    out.flush();
+                }
+            } else {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                try (PrintWriter out = response.getWriter()) {
+                    out.print("Token inválido");
+                }
             }
-        } else {
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             try (PrintWriter out = response.getWriter()) {
-            out.println("erro");
+                out.print("Falha no servidor");
             }
         }
     }
