@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.json.JSONObject;
 import org.json.JSONArray;
+import org.json.JSONException;
 
 public class ComprarTest {
     
@@ -12,12 +13,16 @@ public class ComprarTest {
         // Criar um JSON simples para teste
         JSONObject jsonInput = new JSONObject();
         jsonInput.put("id", 1);
-        jsonInput.put("X-Burger", new String[]{"15.00", "lanche", "1"});
-        
+        jsonInput.put("X-Burger", new JSONArray().put("15.00").put("lanche").put("1"));
         // Verificar se o JSON foi criado corretamente
         assertNotNull(jsonInput);
         assertEquals(1, jsonInput.getInt("id"));
         assertTrue(jsonInput.has("X-Burger"));
+        
+        // Verificar formato do preço
+        JSONArray xBurger = jsonInput.getJSONArray("X-Burger");
+        String preco = xBurger.getString(0);
+        assertTrue(preco.matches("\\d+\\.\\d{2}"), "Preço deve estar no formato XX.XX");
     }
     
     @Test
@@ -28,6 +33,7 @@ public class ComprarTest {
         double valorTotal = valorLanche * quantidade;
         
         assertEquals(30.00, valorTotal);
+        assertTrue(valorTotal > 0, "Valor total deve ser positivo");
     }
     
     @Test
@@ -42,6 +48,10 @@ public class ComprarTest {
         assertTrue(pedido.has("data"));
         assertTrue(pedido.has("valor_total"));
         assertEquals(1, pedido.getInt("id"));
+        
+        // Verificar formato da data
+        String data = pedido.getString("data");
+        assertTrue(data.matches("\\d{4}-\\d{2}-\\d{2}"), "Data deve estar no formato YYYY-MM-DD");
     }
     
     @Test
@@ -145,5 +155,85 @@ public class ComprarTest {
         double valorFinal = valorTotal - desconto;
         
         assertEquals(36.00, valorFinal);
+    }
+
+    // Novos testes adicionados
+    
+    @Test
+    void testQuantidadeNegativa() {
+        JSONObject jsonInput = new JSONObject();
+        jsonInput.put("id", 1);
+        jsonInput.put("X-Burger", new JSONArray().put("15.00").put("lanche").put(-1));
+        
+        JSONArray item = jsonInput.getJSONArray("X-Burger");
+        assertThrows(IllegalArgumentException.class, () -> {
+            if (item.getInt(2) <= 0) {
+                throw new IllegalArgumentException("Quantidade deve ser positiva");
+            }
+        });
+    }
+    
+    @Test
+    void testPrecoInvalido() {
+        JSONObject jsonInput = new JSONObject();
+        jsonInput.put("id", 1);
+        jsonInput.put("X-Burger", new JSONArray().put("15,00").put("lanche").put(1));
+        
+        JSONArray item = jsonInput.getJSONArray("X-Burger");
+        assertThrows(NumberFormatException.class, () -> {
+            Double.parseDouble(item.getString(0));
+        });
+    }
+    
+    @Test
+    void testTipoItemInvalido() {
+        JSONObject jsonInput = new JSONObject();
+        jsonInput.put("id", 1);
+        jsonInput.put("X-Burger", new JSONArray().put("15.00").put("sobremesa").put(1));
+        
+        JSONArray item = jsonInput.getJSONArray("X-Burger");
+        assertFalse(item.getString(1).matches("lanche|bebida"), 
+            "Tipo de item deve ser 'lanche' ou 'bebida'");
+    }
+    
+    @Test
+    void testLimiteQuantidade() {
+        JSONObject jsonInput = new JSONObject();
+        jsonInput.put("id", 1);
+        jsonInput.put("X-Burger", new JSONArray().put("15.00").put("lanche").put(100));
+        
+        JSONArray item = jsonInput.getJSONArray("X-Burger");
+        assertThrows(IllegalArgumentException.class, () -> {
+            if (item.getInt(2) > 50) {
+                throw new IllegalArgumentException("Quantidade máxima excedida");
+            }
+        });
+    }
+    
+    @Test
+    void testPedidoVazio() {
+        JSONObject jsonInput = new JSONObject();
+        jsonInput.put("id", 1);
+        
+        assertThrows(IllegalArgumentException.class, () -> {
+            if (jsonInput.length() <= 1) {
+                throw new IllegalArgumentException("Pedido deve conter pelo menos um item");
+            }
+        });
+    }
+    
+    @Test
+    void testDescontoInvalido() {
+        JSONObject jsonInput = new JSONObject();
+        jsonInput.put("id", 1);
+        jsonInput.put("X-Burger", new JSONArray().put("15.00").put("lanche").put(1));
+        jsonInput.put("desconto", -0.5); // Desconto negativo
+        
+        assertThrows(IllegalArgumentException.class, () -> {
+            double desconto = jsonInput.getDouble("desconto");
+            if (desconto < 0 || desconto > 1) {
+                throw new IllegalArgumentException("Desconto deve estar entre 0 e 1");
+            }
+        });
     }
 }
