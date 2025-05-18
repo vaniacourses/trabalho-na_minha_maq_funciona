@@ -6,7 +6,6 @@
 package Controllers;
 
 import DAO.DaoIngrediente;
-import Helpers.ValidadorCookie;
 import Model.Ingrediente;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
@@ -17,7 +16,6 @@ import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.List;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

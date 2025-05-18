@@ -6,7 +6,6 @@
 package Controllers;
 
 import DAO.DaoCliente;
-import DAO.DaoEndereco;
 import Model.Cliente;
 import Model.Endereco;
 import java.io.BufferedReader;
