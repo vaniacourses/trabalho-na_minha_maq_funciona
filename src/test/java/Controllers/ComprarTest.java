@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
@@ -403,7 +404,6 @@ public class ComprarTest {
         assertTrue(stringWriter.toString().contains("Pedido Salvo com Sucesso!"));
     }
 
-    // Classe auxiliar para simular ServletInputStream
     class MockServletInputStream extends ServletInputStream {
         private final StringReader reader;
 
