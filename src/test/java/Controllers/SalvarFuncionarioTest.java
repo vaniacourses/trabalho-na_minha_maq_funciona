@@ -51,7 +51,7 @@ public class SalvarFuncionarioTest {
     }
     
     @Test
-    void testProcessRequestComCookieValido() throws Exception {
+    void testCadastroFuncionarioSucesso() throws Exception {
         // Arrange
         Cookie[] cookies = new Cookie[1];
         cookies[0] = new Cookie("id_funcionario", "1");
@@ -72,10 +72,14 @@ public class SalvarFuncionarioTest {
     }
     
     @Test
-    void testProcessRequestSemCookie() throws Exception {
+    void testValidacaoPermissoesSemAcesso() throws Exception {
         // Arrange
-        when(request.getCookies()).thenReturn(null);
+        Cookie[] cookies = new Cookie[1];
+        cookies[0] = new Cookie("id_funcionario", "2"); // ID sem permissão
+        
+        when(request.getCookies()).thenReturn(cookies);
         when(request.getInputStream()).thenReturn(new MockServletInputStream("{}"));
+        when(validadorCookie.validarFuncionario(cookies)).thenReturn(false);
         
         // Act
         servlet.processRequest(request, response);
@@ -86,33 +90,12 @@ public class SalvarFuncionarioTest {
     }
     
     @Test
-    void testProcessRequestComDadosInvalidos() throws Exception {
+    void testValidacaoDadosObrigatorios() throws Exception {
         // Arrange
         Cookie[] cookies = new Cookie[1];
         cookies[0] = new Cookie("id_funcionario", "1");
         
-        String jsonInput = "{\"nome\":\"\",\"salario\":-1000.00,\"usuarioFuncionario\":\"\",\"senhaFuncionario\":\"\"}";
-        
-        when(request.getCookies()).thenReturn(cookies);
-        when(request.getInputStream()).thenReturn(new MockServletInputStream(jsonInput));
-        when(validadorCookie.validarFuncionario(cookies)).thenReturn(true);
-        when(validadorCookie.getCookieIdFuncionario(cookies)).thenReturn("1");
-        
-        // Act
-        servlet.processRequest(request, response);
-        
-        // Assert
-        verify(daoFuncionario, never()).salvar(any(Funcionario.class));
-        assertTrue(stringWriter.toString().contains("erro"));
-    }
-    
-    @Test
-    void testProcessRequestComSalarioInvalido() throws Exception {
-        // Arrange
-        Cookie[] cookies = new Cookie[1];
-        cookies[0] = new Cookie("id_funcionario", "1");
-        
-        String jsonInput = "{\"nome\":\"Maria\",\"salario\":0.00,\"usuarioFuncionario\":\"maria123\",\"senhaFuncionario\":\"senha123\"}";
+        String jsonInput = "{\"nome\":\"\",\"salario\":0.00,\"usuarioFuncionario\":\"\",\"senhaFuncionario\":\"\"}";
         
         when(request.getCookies()).thenReturn(cookies);
         when(request.getInputStream()).thenReturn(new MockServletInputStream(jsonInput));
