@@ -20,9 +20,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,6 +36,30 @@ import org.json.JSONObject;
  * @author kener_000
  */
 public class comprar extends HttpServlet {
+
+    private final DaoCliente daoCliente;
+    private final DaoLanche daoLanche;
+    private final DaoBebida daoBebida;
+    private final DaoPedido daoPedido;
+    private final ValidadorCookie validadorCookie;
+
+    public comprar() {
+        this.daoCliente = new DaoCliente();
+        this.daoLanche = new DaoLanche();
+        this.daoBebida = new DaoBebida();
+        this.daoPedido = new DaoPedido();
+        this.validadorCookie = new ValidadorCookie();
+    }
+
+    // Construtor para testes
+    public comprar(DaoCliente daoCliente, DaoLanche daoLanche, DaoBebida daoBebida, 
+                  DaoPedido daoPedido, ValidadorCookie validadorCookie) {
+        this.daoCliente = daoCliente;
+        this.daoLanche = daoLanche;
+        this.daoBebida = daoBebida;
+        this.daoPedido = daoPedido;
+        this.validadorCookie = validadorCookie;
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -60,12 +81,10 @@ public class comprar extends HttpServlet {
         ////////Validar Cookie
         boolean resultado = false;
         
-        try{
-        Cookie[] cookies = request.getCookies();
-        ValidadorCookie validar = new ValidadorCookie();
-        
-        resultado = validar.validar(cookies);
-        }catch(java.lang.NullPointerException e){}
+        try {
+            Cookie[] cookies = request.getCookies();
+            resultado = validadorCookie.validar(cookies);
+        } catch(java.lang.NullPointerException e) {}
         //////////////
         
         if ((br != null) && resultado) {
@@ -74,9 +93,14 @@ public class comprar extends HttpServlet {
             String jsonStr = new String(bytes, UTF_8);            
             JSONObject dados = new JSONObject(jsonStr);
             
-            DaoCliente clienteDao = new DaoCliente(); 
+            Cliente cliente = daoCliente.pesquisaPorID(String.valueOf(dados.getInt("id")));
             
-            Cliente cliente = clienteDao.pesquisaPorID(String.valueOf(dados.getInt("id")));
+            if (cliente == null) {
+                try (PrintWriter out = response.getWriter()) {
+                    out.println("erro");
+                }
+                return;
+            }
             
             Iterator<String> keys = dados.keys();
             
@@ -85,22 +109,30 @@ public class comprar extends HttpServlet {
             List<Lanche> lanches = new ArrayList<Lanche>();
             List<Bebida> bebidas = new ArrayList<Bebida>();
             
-            
             while(keys.hasNext()) {
-                
                 String nome = keys.next();
                 if(!nome.equals("id")){
                     if(dados.getJSONArray(nome).get(1).equals("lanche")){
-                        DaoLanche lancheDao = new DaoLanche();
-                        Lanche lanche = lancheDao.pesquisaPorNome(nome);
+                        Lanche lanche = daoLanche.pesquisaPorNome(nome);
+                        if (lanche == null) {
+                            try (PrintWriter out = response.getWriter()) {
+                                out.println("erro");
+                            }
+                            return;
+                        }
                         int quantidade = dados.getJSONArray(nome).getInt(2);
                         lanche.setQuantidade(quantidade);
                         valor_total += lanche.getValor_venda();
                         lanches.add(lanche);
                     }
                     if(dados.getJSONArray(nome).get(1).equals("bebida")){
-                        DaoBebida bebidaDao = new DaoBebida();
-                        Bebida bebida = bebidaDao.pesquisaPorNome(nome);
+                        Bebida bebida = daoBebida.pesquisaPorNome(nome);
+                        if (bebida == null) {
+                            try (PrintWriter out = response.getWriter()) {
+                                out.println("erro");
+                            }
+                            return;
+                        }
                         int quantidade = dados.getJSONArray(nome).getInt(2);
                         bebida.setQuantidade(quantidade);
                         valor_total += bebida.getValor_venda();
@@ -109,33 +141,29 @@ public class comprar extends HttpServlet {
                 }
             }
             
-            DaoPedido pedidoDao = new DaoPedido();
             Pedido pedido = new Pedido();
             pedido.setData_pedido(Instant.now().toString());
             pedido.setCliente(cliente);
             pedido.setValor_total(valor_total);
-            pedidoDao.salvar(pedido);
-            pedido = pedidoDao.pesquisaPorData(pedido);
+            daoPedido.salvar(pedido);
+            pedido = daoPedido.pesquisaPorData(pedido);
             pedido.setCliente(cliente);
             
-            System.out.println(lanches.toString());
             for(int i = 0; i<lanches.size(); i++){
-                pedidoDao.vincularLanche(pedido, lanches.get(i));
+                daoPedido.vincularLanche(pedido, lanches.get(i));
             }
             for(int i = 0; i<bebidas.size(); i++){
-                pedidoDao.vincularBebida(pedido, bebidas.get(i));
+                daoPedido.vincularBebida(pedido, bebidas.get(i));
             }
   
             try (PrintWriter out = response.getWriter()) {
-            out.println("Pedido Salvo com Sucesso!");
+                out.println("Pedido Salvo com Sucesso!");
             }
         } else {
             try (PrintWriter out = response.getWriter()) {
-            out.println("erro");
+                out.println("erro");
+            }
         }
-        }
-        
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

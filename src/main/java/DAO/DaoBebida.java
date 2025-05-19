@@ -6,8 +6,6 @@
 package DAO;
 
 import Model.Bebida;
-import Model.Ingrediente;
-import Model.Lanche;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

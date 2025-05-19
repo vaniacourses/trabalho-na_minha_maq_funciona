@@ -5,13 +5,10 @@
  */
 package Controllers;
 
-import DAO.DaoBebida;
+
 import Helpers.ValidadorCookie;
-import Model.Bebida;
-import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
