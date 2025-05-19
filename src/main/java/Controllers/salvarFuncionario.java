@@ -26,6 +26,13 @@ import org.json.JSONObject;
  * @author kener_000
  */
 public class salvarFuncionario extends HttpServlet {
+    private final DaoFuncionario daoFuncionario;
+    private final ValidadorCookie validadorCookie;
+
+    public salvarFuncionario(DaoFuncionario daoFuncionario, ValidadorCookie validadorCookie) {
+        this.daoFuncionario = daoFuncionario;
+        this.validadorCookie = validadorCookie;
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,17 +51,15 @@ public class salvarFuncionario extends HttpServlet {
         BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
         String json = "";
         String ID = "1";
-        ////////Validar Cookie
         boolean resultado = false;
         
-        try{
-        Cookie[] cookies = request.getCookies();
-        ValidadorCookie validar = new ValidadorCookie();
-        
-        ID = validar.getCookieIdFuncionario(cookies);
-        resultado = validar.validarFuncionario(cookies);
-        }catch(java.lang.NullPointerException e){System.out.println(e);}
-        //////////////
+        try {
+            Cookie[] cookies = request.getCookies();
+            ID = validadorCookie.getCookieIdFuncionario(cookies);
+            resultado = validadorCookie.validarFuncionario(cookies);
+        } catch(java.lang.NullPointerException e) {
+            System.out.println(e);
+        }
         
         if ((br != null) && resultado) {
             json = br.readLine();
@@ -62,27 +67,39 @@ public class salvarFuncionario extends HttpServlet {
             String jsonStr = new String(bytes, UTF_8);            
             JSONObject dados = new JSONObject(jsonStr);
             
+            // Validações dos dados
+            String nome = dados.getString("nome");
+            double salario = dados.getDouble("salario");
+            String usuario = dados.getString("usuarioFuncionario");
+            String senha = dados.getString("senhaFuncionario");
+            
+            if (nome.isEmpty() || salario <= 0 || usuario.isEmpty() || senha.isEmpty()) {
+                try (PrintWriter out = response.getWriter()) {
+                    out.println("erro");
+                }
+                return;
+            }
+            
             Funcionario funcionario = new Funcionario();
             funcionario.setCad_por(Integer.valueOf(ID));
-            funcionario.setNome(dados.getString("nome"));
+            funcionario.setNome(nome);
             funcionario.setCargo("cargo");
-            funcionario.setSalario(dados.getDouble("salario"));
-            funcionario.setUsuario(dados.getString("usuarioFuncionario"));
-            funcionario.setSenha(dados.getString("senhaFuncionario"));
+            funcionario.setSalario(salario);
+            funcionario.setUsuario(usuario);
+            funcionario.setSenha(senha);
             funcionario.setSobrenome("sobrenome");
             funcionario.setFg_ativo(1);
             
-            DaoFuncionario funcionarioDAO = new DaoFuncionario();
-            funcionarioDAO.salvar(funcionario);
+            daoFuncionario.salvar(funcionario);
             
             try (PrintWriter out = response.getWriter()) {
-            out.println("Funcionario Cadastrado!");
+                out.println("Funcionario Cadastrado!");
             }
         } else {
             try (PrintWriter out = response.getWriter()) {
-            out.println("erro");
+                out.println("erro");
+            }
         }
-    }
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
