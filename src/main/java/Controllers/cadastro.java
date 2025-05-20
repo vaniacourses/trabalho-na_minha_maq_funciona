@@ -28,6 +28,8 @@ import org.json.JSONObject;
 @WebServlet(name = "cadastro", urlPatterns = {"/cadastro"})
 public class cadastro extends HttpServlet {
 
+    private DaoCliente daoCliente;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -132,5 +134,10 @@ public class cadastro extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+
+    public cadastro(DaoCliente daoCliente) {
+        this.daoCliente = daoCliente;
+    }
 
 }
