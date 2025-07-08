@@ -22,9 +22,9 @@ public class DaoEndereco {
         this.conecta = new DaoUtil().conecta();
     }
     
-    public void salvar(Endereco endereco){
+    public int salvar(Endereco endereco){
         String sql = "INSERT INTO tb_enderecos(rua, bairro, numero, complemento, cidade, estado) "
-                + "VALUES(?,?,?,?,?,?)";
+                + "VALUES(?,?,?,?,?,?) RETURNING id_endereco";
         
         try{
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -35,9 +35,14 @@ public class DaoEndereco {
             stmt.setString(5, endereco.getCidade());
             stmt.setString(6, endereco.getEstado());
             
-            stmt.execute();
+            ResultSet rs = stmt.executeQuery();
+            int generatedId = 0;
+            if(rs.next()){
+                generatedId = rs.getInt(1);
+            }
+            rs.close();
             stmt.close();
-            
+            return generatedId;
             
         }catch(Exception e){
             throw new RuntimeException(e);
@@ -65,16 +70,15 @@ public class DaoEndereco {
             ResultSet rs;
             rs = stmt.executeQuery();
             if(rs.next()){
-                end.setId_endereco(rs.getInt("id_endereco"));
                 return end.getId_endereco();   
             } else{
                 return 0;
             }
             
         }catch(SQLException e){
-            System.out.println(e);;
+            throw new RuntimeException("Erro ao validar endereço: " + e.getMessage());
         }
-        return end.getId_endereco();
+        
     }
     
     public Endereco pesquisarEnderecoPorObjeto(Endereco endereco){
@@ -115,7 +119,7 @@ public class DaoEndereco {
             System.out.println(e);
         }
 
-        return resultado;
+        return null;
     }
     
     public Endereco pesquisarEnderecoPorID(String id){
@@ -148,7 +152,7 @@ public class DaoEndereco {
             System.out.println(e);
         }
 
-        return resultado;
+        return null;
     }
     
     public Endereco pesquisarEnderecoPorID(int id){
@@ -181,7 +185,7 @@ public class DaoEndereco {
             System.out.println(e);
         }
 
-        return resultado;
+        return null;
     }
     
     }
