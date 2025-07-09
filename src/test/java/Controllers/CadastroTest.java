@@ -39,11 +39,10 @@ public class CadastroTest {
     void testCadastroClienteSucesso() throws Exception {
         String jsonInput =
             "{\"usuario\":{\"nome\":\"Veron\",\"sobrenome\":\"Lessa\",\"telefone\":\"21 99999-9999\",\"usuario\":\"Velessa\",\"senha\":\"123456\"},"
-          + "\"endereco\":{\"rua\":\"Rua dois\",\"bairro\":\"Gávea\",\"numero\":10,\"complemento\":\"Cobertura\",\"cidade\":\"Rio de Janeiro\",\"estado\":\"Rio de Janeiro\"}}";
+          + "\"endereco\":{\"rua\":\"Rua dois\",\"bairro\":\"Gávea\",\"numero\":10,\"complemento\":\"Cobertura\",\"cidade\":\"Rio de Janeiro\",\"estado\":\"RJ\"}}";
         when(request.getInputStream()).thenReturn(new ServletInputStreamMock(jsonInput));
 
         servlet.processRequest(request, response);
-
 
         verify(daoCliente).salvar(any(Cliente.class));
         assertTrue(stringWriter.toString().contains("Usuário Cadastrado!"));

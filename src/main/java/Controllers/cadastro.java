@@ -81,8 +81,13 @@ public class cadastro extends HttpServlet {
             //E Para finalizar, salva no Banco usando o DAO deles
             cliente.setEndereco(endereco);
             
-            DaoCliente clienteDAO = new DaoCliente();
-            clienteDAO.salvar(cliente);
+            // Usa o daoCliente injetado se disponível, senão cria uma nova instância
+            if (daoCliente != null) {
+                daoCliente.salvar(cliente);
+            } else {
+                DaoCliente clienteDAO = new DaoCliente();
+                clienteDAO.salvar(cliente);
+            }
             
         }
         
