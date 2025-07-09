@@ -1,4 +1,4 @@
-package Controllers;
+package seleniumTests;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;

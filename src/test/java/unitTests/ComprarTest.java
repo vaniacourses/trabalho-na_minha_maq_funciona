@@ -1,25 +1,28 @@
-package Controllers;
-
-import DAO.DaoBebida;
-import DAO.DaoCliente;
-import DAO.DaoLanche;
-import DAO.DaoPedido;
-import Helpers.ValidadorCookie;
-import Model.Bebida;
-import Model.Cliente;
-import Model.Lanche;
-import Model.Pedido;
-import jakarta.servlet.http.Cookie;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Tag;
-import org.mockito.Mock;
+package unitTests;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import DAO.DaoLanche;
+import DAO.DaoBebida;
+import DAO.DaoPedido;
+import DAO.DaoCliente;
+import Model.Lanche;
+import Model.Bebida;
+import Model.Pedido;
+import Model.Cliente;
+import Controllers.comprar;
+import Helpers.ValidadorCookie;
+import jakarta.servlet.http.Cookie;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 @Tag("unit")
 public class ComprarTest extends BaseServletTest {

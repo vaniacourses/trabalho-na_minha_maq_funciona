@@ -1,4 +1,4 @@
-package Controllers;
+package unitTests;
 
 import DAO.DaoRelatorio;
 import Helpers.ValidadorCookie;
@@ -22,6 +22,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+
+import Controllers.getRelatorioGastos;
 
 @Tag("unit")
 public class getRelatorioGastosTest {

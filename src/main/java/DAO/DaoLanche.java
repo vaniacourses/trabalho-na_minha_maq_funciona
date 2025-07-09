@@ -103,21 +103,20 @@ public class DaoLanche {
     public Lanche pesquisaPorNome(Lanche lanche){
         String sql = "SELECT * FROM tb_lanches WHERE nm_lanche='"+lanche.getNome()+"'";
         ResultSet rs;
-        Lanche lancheResultado = new Lanche();
+        Lanche lancheResultado = null;
         
         try{
             
             PreparedStatement stmt = conecta.prepareStatement(sql);
             rs = stmt.executeQuery();
             
-            while (rs.next()){
-            
+            if(rs.next()){
+                lancheResultado = new Lanche();
                 lancheResultado.setId_lanche(rs.getInt("id_lanche"));
                 lancheResultado.setNome(rs.getString("nm_lanche"));
                 lancheResultado.setDescricao(rs.getString("descricao"));
                 lancheResultado.setValor_venda(rs.getDouble("valor_venda"));
                 lancheResultado.setFg_ativo(1);
-                
             }
             rs.close();
             stmt.close();
@@ -134,21 +133,20 @@ public class DaoLanche {
     public Lanche pesquisaPorNome(String nome){
         String sql = "SELECT * FROM tb_lanches WHERE nm_lanche='"+nome+"'";
         ResultSet rs;
-        Lanche lancheResultado = new Lanche();
+        Lanche lancheResultado = null;
         
         try{
             
             PreparedStatement stmt = conecta.prepareStatement(sql);
             rs = stmt.executeQuery();
             
-            while (rs.next()){
-            
+            if(rs.next()){
+                lancheResultado = new Lanche();
                 lancheResultado.setId_lanche(rs.getInt("id_lanche"));
                 lancheResultado.setNome(rs.getString("nm_lanche"));
                 lancheResultado.setDescricao(rs.getString("descricao"));
                 lancheResultado.setValor_venda(rs.getDouble("valor_venda"));
                 lancheResultado.setFg_ativo(1);
-                
             }
             rs.close();
             stmt.close();

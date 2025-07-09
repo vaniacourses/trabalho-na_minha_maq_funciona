@@ -1,4 +1,4 @@
-package Controllers;
+package unitTests;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,6 +13,7 @@ import DAO.DaoCliente;
 import DAO.DaoEndereco;
 import Model.Cliente;
 import Model.Endereco;
+import Controllers.cadastro;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

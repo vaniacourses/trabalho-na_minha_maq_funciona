@@ -1,4 +1,4 @@
-package Controllers;
+package unitTests;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,6 +14,7 @@ import Helpers.ValidadorCookie;
 import DAO.DaoFuncionario;
 import DAO.DaoToken;
 import Model.Funcionario;
+import Controllers.salvarFuncionario;
 
 @Tag("unit")
 public class SalvarFuncionarioTest extends BaseServletTest {

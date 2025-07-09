@@ -128,15 +128,15 @@ public class DaoBebida {
     public Bebida pesquisaPorNome(String nome){
         String sql = "SELECT * FROM tb_bebidas WHERE nm_bebida='"+nome+"'";
         ResultSet rs;
-        Bebida bebidaResultado = new Bebida();
+        Bebida bebidaResultado = null;
         
         try{
             
             PreparedStatement stmt = conecta.prepareStatement(sql);
             rs = stmt.executeQuery();
             
-            while (rs.next()){
-            
+            if(rs.next()){
+                bebidaResultado = new Bebida();
                 bebidaResultado.setId_bebida(rs.getInt("id_bebida"));
                 bebidaResultado.setNome(rs.getString("nm_bebida"));
                 bebidaResultado.setDescricao(rs.getString("descricao"));
@@ -145,7 +145,6 @@ public class DaoBebida {
                 bebidaResultado.setValor_venda(rs.getDouble("valor_venda"));
                 bebidaResultado.setTipo(rs.getString("tipo"));
                 bebidaResultado.setFg_ativo(1);
-                
             }
             rs.close();
             stmt.close();
