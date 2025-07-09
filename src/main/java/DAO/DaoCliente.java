@@ -42,18 +42,26 @@ public class DaoCliente {
             stmt.setString(5, cliente.getSenha());
             stmt.setInt(6, cliente.getFg_ativo());
             DaoEndereco dend = new DaoEndereco();
-            if(dend.validaEndereco(cliente.getEndereco()) == 0){
+            int idEnderecoValido = dend.validaEndereco(cliente.getEndereco());
+            if (idEnderecoValido == 0){
+                idEnderecoValido = dend.salvar(cliente.getEndereco());
+                // Aqui, o id do endereço é obtido após a inserção
+                //idEnderecoValido = dend.validaEndereco(cliente.getEndereco());
+            }
+
+            /*if(dend.validaEndereco(cliente.getEndereco()) == 0){
                 dend.salvar(cliente.getEndereco());
                 stmt.setInt(7, dend.validaEndereco(cliente.getEndereco()));
             } else{
                 stmt.setInt(7, dend.validaEndereco(cliente.getEndereco()));
-            }
+            }*/
+            stmt.setInt(7, idEnderecoValido);
             stmt.execute();
             stmt.close();
             
             
         }catch(Exception e){
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erro ao salvar cliente: " + e);
         }
     }
     
