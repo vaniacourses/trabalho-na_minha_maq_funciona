@@ -35,7 +35,10 @@ public class PainelTest {
         painelPage.clicarBotaoAbrir();
 
         Thread.sleep(2000); // aguarda atualização
+
         assertEquals("Aberto agora!", painelPage.getStatusLanchonete());
+
+        
     }
 
     @AfterAll
