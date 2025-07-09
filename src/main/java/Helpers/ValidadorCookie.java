@@ -15,7 +15,9 @@ import jakarta.servlet.http.Cookie;
 public class ValidadorCookie {
     
     public boolean validar(Cookie[] cookies){
-        
+        if (cookies == null) {
+            return false;
+        }
         boolean resultado = false;
         DaoToken tokenDAO = new DaoToken();
         
@@ -32,6 +34,9 @@ public class ValidadorCookie {
     }
     
         public boolean validarFuncionario(Cookie[] cookies){
+        if (cookies == null) {
+            return false;
+        }
         
         boolean resultado = false;
         DaoToken tokenDAO = new DaoToken();
@@ -49,6 +54,10 @@ public class ValidadorCookie {
     }
         
     public void deletar(Cookie[] cookies){
+        
+        if (cookies == null) {
+            return ;
+        }
         DaoToken tokenDAO = new DaoToken();
         
         for (int i = 0; i < cookies.length; i++) {
@@ -65,7 +74,9 @@ public class ValidadorCookie {
     }
     
     public String getCookieIdCliente(Cookie[] cookies){
-        
+        if (cookies == null) {
+            return "erro";
+        }
         for (int i = 0; i < cookies.length; i++) {
             String name = cookies[i].getName();
             String value = cookies[i].getValue();
@@ -80,6 +91,9 @@ public class ValidadorCookie {
     }
     
     public String getCookieIdFuncionario(Cookie[] cookies){
+        if (cookies == null) {
+            return "erro";
+        }
         
         for (int i = 0; i < cookies.length; i++) {
             String name = cookies[i].getName();

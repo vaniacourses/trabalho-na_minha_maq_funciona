@@ -8,6 +8,7 @@ package DAO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+
 public class DaoUtil {
     
     static {
@@ -19,7 +20,7 @@ public class DaoUtil {
     }
     
     public Connection conecta(){
-        try{
+            try{
             String host = System.getenv("DB_HOST") != null ? System.getenv("DB_HOST") : "localhost";
             String port = System.getenv("DB_PORT") != null ? System.getenv("DB_PORT") : "5432";
             String dbName = System.getenv("DB_NAME") != null ? System.getenv("DB_NAME") : "lanchonete";
@@ -30,7 +31,7 @@ public class DaoUtil {
             return DriverManager.getConnection(url, usuario, senha);
             
         }catch(Exception e){
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erro na base de dados :"+e.getMessage());
         }
     }
     
