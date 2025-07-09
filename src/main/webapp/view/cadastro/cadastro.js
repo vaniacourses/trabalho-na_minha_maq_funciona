@@ -7,7 +7,7 @@ function enviarCadastro(){
     if(validar(usuario) && validar(endereco)){
         dados['usuario'] = formularioParaObjeto(usuario);
         dados['endereco'] = formularioParaObjeto(endereco);
-        requisicao("/APS-04/cadastro", resolver, JSON.stringify(dados));
+        requisicao("/cadastro", resolver, JSON.stringify(dados));
     }
 
 }
@@ -36,6 +36,6 @@ function resolver(resposta){
         alert("Ops... Ocorreu um erro no Cadastro, Tente novamente mais Tarde!");
     } else {
         alert(resposta.srcElement.responseText);
-        window.location.replace("/APS-04/login/login.html");
+        window.location.replace("/view/login/login.html");
     }
 }
