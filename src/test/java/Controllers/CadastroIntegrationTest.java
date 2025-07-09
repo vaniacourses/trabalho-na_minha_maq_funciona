@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 
 import DAO.DaoCliente;
 import DAO.DaoEndereco;
@@ -19,6 +20,7 @@ import java.util.List;
  * Testes de integração para cadastro de clientes
  * Testa a integração real com o banco de dados
  */
+@Tag("integration")
 public class CadastroIntegrationTest extends BaseIntegrationTest {
     
     private DaoCliente daoCliente;

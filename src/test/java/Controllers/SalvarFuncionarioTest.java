@@ -5,14 +5,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import jakarta.servlet.http.Cookie;
 import Helpers.ValidadorCookie;
 import DAO.DaoFuncionario;
+import DAO.DaoToken;
 import Model.Funcionario;
 
+@Tag("unit")
 public class SalvarFuncionarioTest extends BaseServletTest {
     
     @Mock

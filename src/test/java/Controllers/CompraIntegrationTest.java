@@ -4,15 +4,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 
-import DAO.DaoCliente;
 import DAO.DaoLanche;
 import DAO.DaoBebida;
 import DAO.DaoPedido;
-import Model.Cliente;
+import DAO.DaoCliente;
 import Model.Lanche;
 import Model.Bebida;
 import Model.Pedido;
+import Model.Cliente;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -20,9 +21,10 @@ import java.sql.Statement;
 import java.util.List;
 
 /**
- * Testes de integração para o processo de compra
+ * Testes de integração para funcionalidades de compra
  * Testa a integração real com o banco de dados
  */
+@Tag("integration")
 public class CompraIntegrationTest extends BaseIntegrationTest {
     
     private DaoCliente daoCliente;
@@ -44,13 +46,13 @@ public class CompraIntegrationTest extends BaseIntegrationTest {
     private void inserirLancheTeste() throws Exception {
         try (Statement stmt = connection.createStatement()) {
             // Inserir lanche de teste
-            stmt.execute("INSERT INTO tb_lanches (nome, descricao, valor_venda, fg_ativo) " +
+            stmt.execute("INSERT INTO tb_lanches (nm_lanche, descricao, valor_venda, fg_ativo) " +
                         "VALUES ('X-Burger', 'Hambúrguer com queijo', 15.00, 1)");
             
             // Vincular ingredientes ao lanche
-            stmt.execute("INSERT INTO tb_lanches_ingredientes (id_lanche, id_ingrediente, quantidade) " +
+            stmt.execute("INSERT INTO tb_ingredientes_lanche (id_lanche, id_ingrediente, quantidade) " +
                         "VALUES (1, 1, 1)"); // 1 pão
-            stmt.execute("INSERT INTO tb_lanches_ingredientes (id_lanche, id_ingrediente, quantidade) " +
+            stmt.execute("INSERT INTO tb_ingredientes_lanche (id_lanche, id_ingrediente, quantidade) " +
                         "VALUES (1, 2, 1)"); // 1 hambúrguer
         }
     }
@@ -62,6 +64,7 @@ public class CompraIntegrationTest extends BaseIntegrationTest {
         Cliente cliente = daoCliente.pesquisaPorID("1");
         pedido.setCliente(cliente);
         pedido.setValor_total(15.00);
+        pedido.setData_pedido(java.time.Instant.now().toString());
         
         // Act
         daoPedido.salvar(pedido);
@@ -78,7 +81,7 @@ public class CompraIntegrationTest extends BaseIntegrationTest {
         
         // Assert
         try (Statement stmt = connection.createStatement()) {
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM tb_pedidos_lanches WHERE id_pedido = " + pedidoSalvo.getId_pedido());
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM tb_lanches_pedido WHERE id_pedido = " + pedidoSalvo.getId_pedido());
             rs.next();
             assertEquals(1, rs.getInt(1), "Lanche deveria estar vinculado ao pedido");
         }
@@ -91,6 +94,7 @@ public class CompraIntegrationTest extends BaseIntegrationTest {
         Cliente cliente = daoCliente.pesquisaPorID("1");
         pedido.setCliente(cliente);
         pedido.setValor_total(5.00);
+        pedido.setData_pedido(java.time.Instant.now().toString());
         
         // Act
         daoPedido.salvar(pedido);
@@ -107,7 +111,7 @@ public class CompraIntegrationTest extends BaseIntegrationTest {
         
         // Assert
         try (Statement stmt = connection.createStatement()) {
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM tb_pedidos_bebidas WHERE id_pedido = " + pedidoSalvo.getId_pedido());
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM tb_bebidas_pedido WHERE id_pedido = " + pedidoSalvo.getId_pedido());
             rs.next();
             assertEquals(1, rs.getInt(1), "Bebida deveria estar vinculada ao pedido");
         }
@@ -120,6 +124,7 @@ public class CompraIntegrationTest extends BaseIntegrationTest {
         Cliente cliente = daoCliente.pesquisaPorID("1");
         pedido.setCliente(cliente);
         pedido.setValor_total(20.00); // 15.00 + 5.00
+        pedido.setData_pedido(java.time.Instant.now().toString());
         
         // Act
         daoPedido.salvar(pedido);
@@ -137,11 +142,11 @@ public class CompraIntegrationTest extends BaseIntegrationTest {
         
         // Assert
         try (Statement stmt = connection.createStatement()) {
-            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM tb_pedidos_lanches WHERE id_pedido = " + pedidoSalvo.getId_pedido());
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) FROM tb_lanches_pedido WHERE id_pedido = " + pedidoSalvo.getId_pedido());
             rs.next();
             assertEquals(1, rs.getInt(1), "Lanche deveria estar vinculado ao pedido");
             
-            rs = stmt.executeQuery("SELECT COUNT(*) FROM tb_pedidos_bebidas WHERE id_pedido = " + pedidoSalvo.getId_pedido());
+            rs = stmt.executeQuery("SELECT COUNT(*) FROM tb_bebidas_pedido WHERE id_pedido = " + pedidoSalvo.getId_pedido());
             rs.next();
             assertEquals(1, rs.getInt(1), "Bebida deveria estar vinculada ao pedido");
         }

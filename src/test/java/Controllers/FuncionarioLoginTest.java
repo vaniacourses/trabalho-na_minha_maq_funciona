@@ -1,9 +1,20 @@
 package Controllers;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import DAO.DaoFuncionario;
+import DAO.DaoToken;
+import Model.Funcionario;
 import org.json.JSONObject;
 
+@Tag("unit")
 public class FuncionarioLoginTest {
     
     @Test
