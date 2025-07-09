@@ -34,8 +34,8 @@ public class CadastroClienteTest {
     void testCadastroClienteComSucesso() {
         cadastroPage.navigateTo(); 
         cadastroPage.preencherDadosUsuario("Cliente", "Sobrenome Teste", "21987654321", "novousuarioteste", "senhadiff123");
-        cadastroPage.preencherDadosEndereco("Rua Teste", "123", "Bairro Selenium", "Casa 20", "Cidade do Teste", "RJ
-        ");
+        cadastroPage.preencherDadosEndereco("Rua Teste", "123", "Bairro Selenium", "Casa 20", "Cidade do Teste", "RJ");
+    
         cadastroPage.clicarCadastrar(); 
 
 
