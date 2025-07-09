@@ -40,6 +40,11 @@ public class PainelTest {
         painelPage = new PainelPage(driver);
     }
 
+    @BeforeEach
+    void limparAlertasAntesDeCadaTeste() {
+        limparAlertas();
+    }
+
     @AfterAll
     void tearDown() {
         if (driver != null) {
@@ -47,12 +52,32 @@ public class PainelTest {
         }
     }
 
+    @Test
+    @DisplayName("Teste de cadastro de ingrediente na plataforma")
+    void testCadastroIngrediente() throws InterruptedException {
+        fazerLoginFuncionario();
+        
+        driver.get("http://localhost:8080/view/painel/painel.html");
+        
+        painelPage.acessarCadastroIngredientes();
+        
+        painelPage.cadastrarIngredienteCompleto(
+            "Hambúrguer de Carne",
+            "carne",
+            50,
+            8.50,
+            12.00,
+            "Hambúrguer de carne bovina premium"
+        );
+        
+        String mensagemAlerta = painelPage.obterMensagemAlerta();
+        
+        assertTrue(mensagemAlerta.contains("Ingrediente Salvo!"), 
+            "Deveria mostrar mensagem de sucesso, mas mostrou: " + mensagemAlerta);
+    }
+
     protected void fazerLoginFuncionario() {
-        try {
-            Alert alert = driver.switchTo().alert();
-            alert.accept();
-        } catch (Exception e) {
-        }
+        limparAlertas();
         
         driver.get("http://localhost:8080/view/login/login_Funcionario.html");
         
@@ -67,8 +92,10 @@ public class PainelTest {
 
     protected void limparAlertas() {
         try {
-            Alert alert = driver.switchTo().alert();
-            alert.accept();
+            while (true) {
+                Alert alert = driver.switchTo().alert();
+                alert.accept();
+            }
         } catch (Exception e) {
         }
     }
