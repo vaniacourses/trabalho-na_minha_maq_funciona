@@ -30,6 +30,13 @@ public class cadastro extends HttpServlet {
 
     private DaoCliente daoCliente;
 
+    public cadastro () {
+        this.daoCliente = new DaoCliente();
+    }
+
+    public cadastro (DaoCliente daoCliente) {
+        this.daoCliente = daoCliente;
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -125,7 +132,7 @@ public class cadastro extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -140,9 +147,5 @@ public class cadastro extends HttpServlet {
         return "Short description";
     }// </editor-fold>
     
-
-    public cadastro(DaoCliente daoCliente) {
-        this.daoCliente = daoCliente;
-    }
 
 }
