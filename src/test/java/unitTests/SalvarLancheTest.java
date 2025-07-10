@@ -1,9 +1,19 @@
-package Controllers;
+package unitTests;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import DAO.DaoLanche;
+import Model.Lanche;
 import org.json.JSONObject;
 
+@Tag("unit")
 public class SalvarLancheTest {
     
     @Test

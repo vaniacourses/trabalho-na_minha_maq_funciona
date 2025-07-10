@@ -1,19 +1,25 @@
-package Controllers;
+package unitTests;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import DAO.DaoCliente;
-import Model.Cliente;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import DAO.DaoCliente;
+import DAO.DaoEndereco;
+import Model.Cliente;
+import Model.Endereco;
+import Controllers.cadastro;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.*;
 
+@Tag("unit")
 public class CadastroTest {
     @Mock
     private HttpServletRequest request;

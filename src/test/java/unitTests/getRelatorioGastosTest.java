@@ -1,4 +1,4 @@
-package Controllers;
+package unitTests;
 
 import DAO.DaoRelatorio;
 import Helpers.ValidadorCookie;
@@ -9,7 +9,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
+import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
@@ -19,6 +23,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import Controllers.getRelatorioGastos;
+
+@Tag("unit")
 public class getRelatorioGastosTest {
 
     private HttpServletRequest request;

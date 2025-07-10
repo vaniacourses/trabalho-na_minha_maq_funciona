@@ -57,7 +57,6 @@ public class DaoEndereco {
                 + "AND bairro = ? "
                 + "AND cidade = ? "
                 + "AND estado = ? ";
-        Endereco end = new Endereco();
         try{
             PreparedStatement stmt = conecta.prepareStatement(sql);
             stmt.setString(1, endereco.getRua());
@@ -70,7 +69,7 @@ public class DaoEndereco {
             ResultSet rs;
             rs = stmt.executeQuery();
             if(rs.next()){
-                return end.getId_endereco();   
+                return rs.getInt("id_endereco");   
             } else{
                 return 0;
             }
