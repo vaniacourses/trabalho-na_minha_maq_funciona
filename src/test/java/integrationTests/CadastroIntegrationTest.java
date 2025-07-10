@@ -27,6 +27,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.junit.jupiter.api.Tag;
+
+@Tag("integration")
 public class CadastroIntegrationTest {
 
     private HttpServletRequest request;
