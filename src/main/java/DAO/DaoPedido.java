@@ -38,8 +38,8 @@ public class DaoPedido {
             stmt.close();
             
             
-        }catch(Exception e){
-            throw new RuntimeException(e);
+        }catch(SQLException e){
+            throw new DatabaseException("Erro ao salvar pedido: " + e.getMessage(), e);
         }
     }
     
@@ -59,7 +59,7 @@ public class DaoPedido {
             
         } catch(SQLException e){
             
-             throw new RuntimeException(e);
+             throw new DatabaseException("Erro ao vincular lanche ao pedido: " + e.getMessage(), e);
         }
     }
     
@@ -79,7 +79,7 @@ public class DaoPedido {
             
         } catch(SQLException e){
             
-             throw new RuntimeException(e);
+             throw new DatabaseException("Erro ao vincular bebida ao pedido: " + e.getMessage(), e);
         }
     }
         
@@ -108,7 +108,7 @@ public class DaoPedido {
             
         } catch(SQLException e){
             
-             throw new RuntimeException(e);
+             throw new DatabaseException("Erro ao pesquisar pedido por data: " + e.getMessage(), e);
         }
         
     }
