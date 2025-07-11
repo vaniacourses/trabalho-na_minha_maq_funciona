@@ -19,6 +19,7 @@ import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -33,6 +34,8 @@ public class getRelatorioGastosTest {
     private ValidadorCookie validador;
     private DaoRelatorio dao;
     private getRelatorioGastos servlet;
+    private StringWriter stringWriter;
+    private PrintWriter writer;
 
     @BeforeEach
     public void setUp() {
@@ -41,6 +44,13 @@ public class getRelatorioGastosTest {
         validador = mock(ValidadorCookie.class);
         dao = mock(DaoRelatorio.class);
         servlet = new getRelatorioGastos(validador, dao);
+        stringWriter = new StringWriter();
+        writer = new PrintWriter(stringWriter);
+        try {
+            when(response.getWriter()).thenReturn(writer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -119,16 +129,58 @@ public class getRelatorioGastosTest {
 
         servlet.processRequest(request, response);
 
-        // verifica se deu 500
         verify(response).setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 
-        // checa corpo da resposta
         pw.flush();
         String body = sw.toString();
         System.out.println("Resposta: " + body);
         assertTrue(
                 body.contains("Falha no servidor"),
                 "Esperava 'Falha no servidor' no corpo, mas recebeu: " + body);
+    }
+        @Test
+    public void testDoGet() throws Exception {
+
+        Cookie[] cookies = { new Cookie("token", "get_test_token") };
+        when(request.getCookies()).thenReturn(cookies);
+        when(validador.validar(cookies)).thenReturn(true);
+        when(dao.listarRelGastos()).thenReturn(Arrays.asList(new RelatorioGastos()));
+
+        servlet.doGet(request, response);
+
+        verify(response).setContentType("application/json");
+        verify(response).setCharacterEncoding("UTF-8");
+        verify(dao).listarRelGastos();
+        writer.flush();
+        assertTrue(stringWriter.toString().contains(new Gson().toJson(Arrays.asList(new RelatorioGastos()))),
+                   "Resposta inesperada para doGet().");
+    }
+
+
+    @Test
+    public void testDoPost() throws Exception {
+
+        Cookie[] cookies = { new Cookie("token", "post_test_token") };
+        when(request.getCookies()).thenReturn(cookies);
+        when(validador.validar(cookies)).thenReturn(true);
+        when(dao.listarRelGastos()).thenReturn(Arrays.asList(new RelatorioGastos()));
+
+        servlet.doPost(request, response); 
+
+        verify(response).setContentType("application/json");
+        verify(response).setCharacterEncoding("UTF-8");
+        verify(dao).listarRelGastos();
+        writer.flush();
+        assertTrue(stringWriter.toString().contains(new Gson().toJson(Arrays.asList(new RelatorioGastos()))),
+                   "Resposta inesperada para doPost().");
+    }
+
+
+    @Test
+    public void testGetServletInfo() {
+        String servletInfo = servlet.getServletInfo(); 
+        assertEquals("Short description", servletInfo, 
+                     "getServletInfo() não retornou a descrição esperada.");
     }
 
 }
