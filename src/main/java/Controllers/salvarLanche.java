@@ -33,14 +33,12 @@ public class salvarLanche extends HttpServlet {
     private DaoIngrediente ingredienteDao;
     private ValidadorCookie validadorCookie;
 
-    // Construtor padrão para uso normal
     public salvarLanche() {
         this.lancheDao = new DaoLanche();
         this.ingredienteDao = new DaoIngrediente();
         this.validadorCookie = new ValidadorCookie();
     }
 
-    // Construtor para testes (injeção de dependências)
     public salvarLanche(DaoLanche lancheDao, DaoIngrediente ingredienteDao, ValidadorCookie validadorCookie) {
         this.lancheDao = lancheDao;
         this.ingredienteDao = ingredienteDao;
