@@ -1,4 +1,4 @@
-package unitTests;
+package unit;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -25,7 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 @Tag("unit")
-public class ComprarTest extends BaseServletTest {
+public class ComprarTest extends unit.BaseServletTest {
 
     @Mock
     private DaoCliente daoCliente;

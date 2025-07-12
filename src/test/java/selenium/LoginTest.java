@@ -1,4 +1,4 @@
-package seleniumTests;
+package selenium;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import pages.LoginFuncionarioPage;
 
 import java.time.Duration;
 

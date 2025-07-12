@@ -1,5 +1,5 @@
 
-package integrationTests;
+package integration;
 
 import Controllers.cadastro;
 import dao.DaoCliente;

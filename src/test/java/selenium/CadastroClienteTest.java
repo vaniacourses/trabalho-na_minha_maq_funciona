@@ -1,4 +1,4 @@
-package unitTests; 
+package selenium; 
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver; 
@@ -7,6 +7,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pages.CadastroClientePage;
+import pages.LoginPage;
 
 import java.time.Duration;
 

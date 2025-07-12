@@ -1,4 +1,4 @@
-package unitTests;
+package unit;
 
 import dao.DaoFuncionario;
 import dao.DatabaseException;

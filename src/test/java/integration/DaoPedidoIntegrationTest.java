@@ -1,4 +1,4 @@
-package integrationTests;
+package integration;
 
 import dao.DaoPedido;
 import Model.Pedido;

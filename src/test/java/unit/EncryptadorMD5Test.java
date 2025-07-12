@@ -1,4 +1,4 @@
-package unitTests;
+package unit;
 
 import Helpers.EncryptadorMD5;
 import org.junit.jupiter.api.BeforeEach;
