@@ -29,7 +29,7 @@ import dao.DaoCliente;
 @WebServlet(name = "cadastro", urlPatterns = {"/cadastro"})
 public class cadastro extends HttpServlet {
 
-    private DaoCliente daoCliente;
+    private final DaoCliente daoCliente;
 
     public cadastro () {
         this.daoCliente = new DaoCliente();
