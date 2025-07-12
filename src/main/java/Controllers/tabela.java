@@ -5,9 +5,11 @@
  */
 package Controllers;
 
-import DAO.DaoCliente;
 import Model.Cliente;
 import com.google.gson.Gson;
+
+import dao.DaoCliente;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;

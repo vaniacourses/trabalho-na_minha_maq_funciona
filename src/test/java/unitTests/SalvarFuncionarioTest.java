@@ -11,10 +11,10 @@ import org.mockito.MockitoAnnotations;
 
 import jakarta.servlet.http.Cookie;
 import Helpers.ValidadorCookie;
-import DAO.DaoFuncionario;
-import DAO.DaoToken;
 import Model.Funcionario;
 import Controllers.salvarFuncionario;
+import dao.DaoFuncionario;
+import dao.DaoToken;
 
 @Tag("unit")
 public class SalvarFuncionarioTest extends BaseServletTest {

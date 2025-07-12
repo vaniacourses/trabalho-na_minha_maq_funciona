@@ -1,0 +1,6 @@
+projectKey=com.lanchonete:APS-04
+serverUrl=http://localhost:9000
+serverVersion=25.7.0.110598
+dashboardUrl=http://localhost:9000/dashboard?id=com.lanchonete%3AAPS-04
+ceTaskId=cbad737a-35eb-4970-abd1-ebb52bc73b28
+ceTaskUrl=http://localhost:9000/api/ce/task?id=cbad737a-35eb-4970-abd1-ebb52bc73b28

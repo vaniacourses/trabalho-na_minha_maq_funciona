@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Helpers;
 
-import DAO.DaoToken;
+import dao.DaoToken;
 import jakarta.servlet.http.Cookie;
 
 /**
@@ -14,39 +9,56 @@ import jakarta.servlet.http.Cookie;
  */
 public class ValidadorCookie {
     
+    private final DaoToken tokenDAO;
+
+    /**
+     * Construtor padrão para a aplicação.
+     * A sua aplicação continuará a usar `new ValidadorCookie()` sem problemas.
+     */
+    public ValidadorCookie() {
+        this.tokenDAO = new DaoToken();
+    }
+
+    /**
+     * Construtor para testes.
+     * Permite que os testes unitários "injetem" um DaoToken falso (mock).
+     * @param tokenDAO O DAO a ser usado pela instância.
+     */
+    public ValidadorCookie(DaoToken tokenDAO) {
+        this.tokenDAO = tokenDAO;
+    }
+    
     public boolean validar(Cookie[] cookies){
         if (cookies == null) {
             return false;
         }
         boolean resultado = false;
-        DaoToken tokenDAO = new DaoToken();
         
         for (int i = 0; i < cookies.length; i++) {
             String name = cookies[i].getName();
             String value = cookies[i].getValue();
             
             if(name.equals("token")){
-                resultado = tokenDAO.validar(value);
+                resultado = this.tokenDAO.validar(value);
             }
         }
         
         return resultado;
     }
     
-        public boolean validarFuncionario(Cookie[] cookies){
+    public boolean validarFuncionario(Cookie[] cookies){
         if (cookies == null) {
             return false;
         }
         
         boolean resultado = false;
-        DaoToken tokenDAO = new DaoToken();
         
         for (int i = 0; i < cookies.length; i++) {
             String name = cookies[i].getName();
             String value = cookies[i].getValue();
             
             if(name.equals("tokenFuncionario")){
-                resultado = tokenDAO.validar(value);
+                resultado = this.tokenDAO.validar(value);
             }
         }
         
@@ -54,22 +66,21 @@ public class ValidadorCookie {
     }
         
     public void deletar(Cookie[] cookies){
-        
         if (cookies == null) {
-            return ;
+            return;
         }
-        DaoToken tokenDAO = new DaoToken();
         
         for (int i = 0; i < cookies.length; i++) {
             String name = cookies[i].getName();
             String value = cookies[i].getValue();
             
             try{
-            if(name.equals("tokenFuncionario")||name.equals("token")){
-                tokenDAO.remover(value);
-            }}catch(Exception e){
-            throw new RuntimeException(e);
-        }
+                if(name.equals("tokenFuncionario") || name.equals("token")){
+                    this.tokenDAO.remover(value);
+                }
+            } catch(Exception e){
+                throw new RuntimeException(e);
+            }
         }
     }
     

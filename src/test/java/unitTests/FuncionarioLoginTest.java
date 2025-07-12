@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Tag;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import DAO.DaoFuncionario;
-import DAO.DaoToken;
+import dao.DaoFuncionario;
+import dao.DaoToken;
 import Model.Funcionario;
 import org.json.JSONObject;
 
