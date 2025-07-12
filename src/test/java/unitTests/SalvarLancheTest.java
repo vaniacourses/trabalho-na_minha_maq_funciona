@@ -20,11 +20,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.ArgumentCaptor;
 
-import Controllers.salvarLanche;
-import DAO.DaoIngrediente;
-import DAO.DaoLanche;
-import Helpers.ValidadorCookie;
-import Model.Ingrediente;
+import dao.DaoLanche;
 import Model.Lanche;
 
 public class SalvarLancheTest {

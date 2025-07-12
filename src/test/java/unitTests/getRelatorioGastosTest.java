@@ -1,6 +1,5 @@
 package unitTests;
 
-import DAO.DaoRelatorio;
 import Helpers.ValidadorCookie;
 import Model.RelatorioGastos;
 import com.google.gson.Gson;
@@ -25,6 +24,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import Controllers.getRelatorioGastos;
+import dao.DaoRelatorio;
 
 @Tag("unit")
 public class getRelatorioGastosTest {

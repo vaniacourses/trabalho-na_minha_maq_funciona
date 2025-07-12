@@ -5,9 +5,11 @@
  */
 package Controllers;
 
-import DAO.DaoIngrediente;
 import Model.Ingrediente;
 import com.google.gson.Gson;
+
+import dao.DaoIngrediente;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

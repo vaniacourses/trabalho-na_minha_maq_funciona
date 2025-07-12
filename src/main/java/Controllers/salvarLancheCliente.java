@@ -5,8 +5,6 @@
  */
 package Controllers;
 
-import DAO.DaoIngrediente;
-import DAO.DaoLanche;
 import Helpers.ValidadorCookie;
 import Model.Ingrediente;
 import Model.Lanche;
@@ -23,6 +21,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
+
+import dao.DaoIngrediente;
+import dao.DaoLanche;
 
 /**
  *

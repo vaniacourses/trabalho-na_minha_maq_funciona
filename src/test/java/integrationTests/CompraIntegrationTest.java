@@ -3,13 +3,15 @@ package integrationTests;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+
+import dao.DaoBebida;
+import dao.DaoCliente;
+import dao.DaoLanche;
+import dao.DaoPedido;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 
-import DAO.DaoLanche;
-import DAO.DaoBebida;
-import DAO.DaoPedido;
-import DAO.DaoCliente;
 import Model.Lanche;
 import Model.Bebida;
 import Model.Pedido;
