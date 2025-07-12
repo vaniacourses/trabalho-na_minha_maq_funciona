@@ -248,8 +248,6 @@ Para uma visualização mais detalhada e interativa dos dados de qualidade, aces
 | **Portabilidade** | 4/5 | ✅ Bom | Baixa |
 | **Segurança** | 2/5 | ❌ Crítico | Alta |
 | **Compatibilidade** | 4/5 | ✅ Bom | Baixa |
-| **Performance** | 3/5 | ⚠️ Regular | Média |
-| **Testabilidade** | 4/5 | ✅ Bom | Baixa |
 
 ## 🎯 Recomendações Prioritárias
 

@@ -2,7 +2,6 @@ package selenium;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Disabled;
 
 /**
  * Suite de testes Selenium para testes de sistema
@@ -16,7 +15,6 @@ public class SeleniumTestSuite extends BaseSeleniumTest {
     private static final String BASE_URL = "http://localhost:8080";
     
     @Test
-    @Disabled("Servidor precisa estar rodando")
     public void testeFluxoCompletoCadastroCliente() {
         // 1. Acessar página de cadastro
         driver.get(BASE_URL + "/view/cadastro/cadastro.html");
@@ -32,7 +30,6 @@ public class SeleniumTestSuite extends BaseSeleniumTest {
     }
     
     @Test
-    @Disabled("Servidor precisa estar rodando")
     public void testeFluxoFuncionario() {
         // 1. Login funcionário
         // 2. Acessar painel
@@ -43,7 +40,6 @@ public class SeleniumTestSuite extends BaseSeleniumTest {
     }
     
     @Test
-    @Disabled("Servidor precisa estar rodando")
     public void testeResponsividade() {
         // Testar em diferentes resoluções
         driver.manage().window().setSize(new org.openqa.selenium.Dimension(375, 667)); // Mobile
