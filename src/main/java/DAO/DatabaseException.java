@@ -1,4 +1,4 @@
-package DAO;
+package dao;
 
 /**
  * Exceção personalizada para erros relacionados ao banco de dados

@@ -2,8 +2,8 @@
 package integrationTests;
 
 import Controllers.cadastro;
-import DAO.DaoCliente;
-import DAO.DaoEndereco;
+import dao.DaoCliente;
+import dao.DaoEndereco;
 import Model.Cliente;
 import Model.Endereco;
 import jakarta.servlet.http.HttpServletRequest;

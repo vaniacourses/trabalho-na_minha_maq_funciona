@@ -5,7 +5,6 @@
  */
 package Controllers;
 
-import DAO.DaoFuncionario;
 import Helpers.ValidadorCookie;
 import Model.Funcionario;
 import java.io.BufferedReader;
@@ -20,6 +19,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
+
+import dao.DaoFuncionario;
 
 /**
  *

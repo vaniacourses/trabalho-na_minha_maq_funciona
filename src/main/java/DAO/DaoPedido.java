@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DAO;
+package dao;
 
 import Model.Bebida;
 import Model.Lanche;
@@ -19,6 +19,9 @@ import java.sql.SQLException;
  */
 public class DaoPedido {
     private Connection conecta;
+    
+    // Constante para evitar duplicação de string literal
+    private static final String VALUES_PLACEHOLDERS = "VALUES(?,?,?)";
 
     public DaoPedido() {
         this.conecta = new DaoUtil().conecta();
@@ -26,7 +29,7 @@ public class DaoPedido {
     
     public void salvar(Pedido pedido){
         String sql = "INSERT INTO tb_pedidos(id_cliente, data_pedido, valor_total) "
-                + "VALUES(?,?,?)";
+                + VALUES_PLACEHOLDERS;
         
         try{
             PreparedStatement stmt = conecta.prepareStatement(sql);
@@ -46,7 +49,7 @@ public class DaoPedido {
     public void vincularLanche(Pedido pedido, Lanche lanche){
         
         String sql = "INSERT INTO tb_lanches_pedido(id_pedido, id_lanche, quantidade)"
-                + "VALUES(?,?,?)";
+                + VALUES_PLACEHOLDERS;
         try{
             PreparedStatement stmt = conecta.prepareStatement(sql);
             stmt.setInt(1, pedido.getId_pedido());
@@ -66,7 +69,7 @@ public class DaoPedido {
     public void vincularBebida(Pedido pedido, Bebida bebida){
         
         String sql = "INSERT INTO tb_bebidas_pedido(id_pedido, id_bebida, quantidade)"
-                + "VALUES(?,?,?)";
+                + VALUES_PLACEHOLDERS;
         try{
             PreparedStatement stmt = conecta.prepareStatement(sql);
             stmt.setInt(1, pedido.getId_pedido());
@@ -84,19 +87,19 @@ public class DaoPedido {
     }
         
     public Pedido pesquisaPorData(Pedido pedido){
-        String sql = "SELECT * FROM tb_pedidos WHERE data_pedido='"+pedido.getData_pedido()+"'";
+        String sql = "SELECT id_pedido, data_pedido, valor_total FROM tb_pedidos WHERE data_pedido=?";
         ResultSet rs;
         Pedido pedidoResultado = new Pedido();
         
         try{
             
             PreparedStatement stmt = conecta.prepareStatement(sql);
+            stmt.setString(1, pedido.getData_pedido());
             rs = stmt.executeQuery();
             
             while (rs.next()){
             
                 pedidoResultado.setId_pedido(rs.getInt("id_pedido"));
-                //pedidoResultado.setCliente(cliente);
                 pedidoResultado.setData_pedido(rs.getString("data_pedido"));
                 pedidoResultado.setValor_total(rs.getDouble("valor_total"));
                 

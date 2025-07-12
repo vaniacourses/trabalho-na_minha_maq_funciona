@@ -9,12 +9,11 @@ import org.junit.jupiter.api.Tag;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import DAO.DaoCliente;
-import DAO.DaoEndereco;
 import Model.Cliente;
 import Model.Endereco;
 import Controllers.cadastro;
-
+import dao.DaoCliente;
+import dao.DaoEndereco;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.*;

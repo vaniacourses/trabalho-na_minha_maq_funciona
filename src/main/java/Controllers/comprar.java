@@ -5,10 +5,6 @@
  */
 package Controllers;
 
-import DAO.DaoBebida;
-import DAO.DaoCliente;
-import DAO.DaoLanche;
-import DAO.DaoPedido;
 import Helpers.ValidadorCookie;
 import Model.Bebida;
 import Model.Cliente;
@@ -30,6 +26,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
+
+import dao.DaoBebida;
+import dao.DaoCliente;
+import dao.DaoLanche;
+import dao.DaoPedido;
 
 /**
  *
