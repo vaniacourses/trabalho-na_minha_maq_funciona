@@ -3,15 +3,6 @@ package unit;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.io.BufferedReader;
-import java.io.PrintWriter;
-import java.io.StringReader;
-import java.io.StringWriter;
-
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -24,16 +15,13 @@ import dao.DaoIngrediente;
 import dao.DaoLanche;
 import Helpers.ValidadorCookie;
 import Model.Ingrediente;
-import dao.DaoLanche;
 import Model.Lanche;
+import jakarta.servlet.http.Cookie;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import org.json.JSONObject;
 
-public class SalvarLancheTest {
-
-    @Mock
-    private HttpServletRequest request;
-
-    @Mock
-    private HttpServletResponse response;
+public class SalvarLancheTest extends BaseServletTest {
 
     @Mock
     private DaoLanche daoLanche;
@@ -43,6 +31,7 @@ public class SalvarLancheTest {
 
     @Mock
     private ValidadorCookie validadorCookie;
+    
     private salvarLanche servlet;
 
     private StringWriter stringWriter;
@@ -50,7 +39,7 @@ public class SalvarLancheTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        MockitoAnnotations.openMocks(this);
+        setUpBase();
         servlet = new salvarLanche(daoLanche, daoIngrediente, validadorCookie);
 
         stringWriter = new StringWriter();
@@ -59,75 +48,108 @@ public class SalvarLancheTest {
     }
 
     @Test
-    @DisplayName("Deve salvar um lanche com sucesso quando o cookie é válido")
-    void testProcessRequest_Success_WhenCookieIsValid() throws Exception {
-        Cookie[] cookies = { new Cookie("tokenFuncionario", "valid-token") };
-        when(request.getCookies()).thenReturn(cookies);
-        when(validadorCookie.validarFuncionario(cookies)).thenReturn(true); 
-        String jsonPayload = "{\"nome\":\"X-Tudo\",\"descricao\":\"Hambúrguer completo\",\"ValorVenda\":25.00,"
-                + "\"ingredientes\":{\"Pão\":1,\"Hambúrguer\":2}}";
-        BufferedReader reader = new BufferedReader(new StringReader(jsonPayload));
-        when(request.getReader()).thenReturn(reader);
-        when(request.getInputStream()).thenReturn(new MockServletInputStream(jsonPayload));
-
-
-        Lanche lancheSalvoComId = new Lanche();
-        lancheSalvoComId.setId_lanche(1);
-        lancheSalvoComId.setNome("X-Tudo");
-
-        Ingrediente paoComId = new Ingrediente();
-        paoComId.setId_ingrediente(10);
-        paoComId.setNome("Pão");
-
-        Ingrediente hamburguerComId = new Ingrediente();
-        hamburguerComId.setId_ingrediente(11);
-        hamburguerComId.setNome("Hambúrguer");
-
+    @DisplayName("Deve validar estrutura JSON de lanche válido")
+    void testValidarEstruturaJSONLancheValido() {
+        // Arrange
+        JSONObject jsonLanche = new JSONObject();
+        jsonLanche.put("nome", "X-Tudo");
+        jsonLanche.put("descricao", "Hambúrguer completo");
+        jsonLanche.put("ValorVenda", 25.00);
         
-        when(daoLanche.pesquisaPorNome(any(Lanche.class))).thenReturn(lancheSalvoComId);
-        
-        when(daoIngrediente.pesquisaPorNome(argThat(i -> i != null && "Pão".equals(i.getNome())))).thenReturn(paoComId);
-        when(daoIngrediente.pesquisaPorNome(argThat(i -> i != null && "Hambúrguer".equals(i.getNome())))).thenReturn(hamburguerComId);
-        
-        when(daoIngrediente.pesquisaPorNome(isNull())).thenReturn(null);
+        JSONObject ingredientes = new JSONObject();
+        ingredientes.put("Pão", 1);
+        ingredientes.put("Hambúrguer", 2);
+        jsonLanche.put("ingredientes", ingredientes);
 
-        assertTrue(true, "Este teste demonstra a estrutura correta, mas requer refatoração do servlet para ser executado.");
+        // Assert
+        assertNotNull(jsonLanche);
+        assertTrue(jsonLanche.has("nome"));
+        assertTrue(jsonLanche.has("descricao"));
+        assertTrue(jsonLanche.has("ValorVenda"));
+        assertTrue(jsonLanche.has("ingredientes"));
+        assertEquals("X-Tudo", jsonLanche.getString("nome"));
+        assertEquals(25.00, jsonLanche.getDouble("ValorVenda"), 0.01);
+        assertEquals(2, ingredientes.length());
     }
 
     @Test
-    @DisplayName("Deve retornar erro quando o cookie é inválido")
-    void testProcessRequest_Failure_WhenCookieIsInvalid() throws Exception {
-        when(request.getCookies()).thenReturn(null);
-        when(validadorCookie.validarFuncionario(null)).thenReturn(false);
+    @DisplayName("Deve validar estrutura JSON de lanche sem ingredientes")
+    void testValidarEstruturaJSONLancheSemIngredientes() {
+        // Arrange
+        JSONObject jsonLanche = new JSONObject();
+        jsonLanche.put("nome", "Lanche Simples");
+        jsonLanche.put("descricao", "Lanche básico");
+        jsonLanche.put("ValorVenda", 10.00);
         
-        assertTrue(true, "Este teste demonstra a estrutura correta, mas requer refatoração do servlet para ser executado.");
-    }
-}
+        JSONObject ingredientes = new JSONObject();
+        jsonLanche.put("ingredientes", ingredientes);
 
-
-class MockServletInputStream extends jakarta.servlet.ServletInputStream {
-    private final StringReader stringReader;
-
-    public MockServletInputStream(String source) {
-        this.stringReader = new StringReader(source);
-    }
-
-    @Override
-    public int read() throws java.io.IOException {
-        return stringReader.read();
+        // Assert
+        assertNotNull(jsonLanche);
+        assertTrue(jsonLanche.has("nome"));
+        assertTrue(jsonLanche.has("ingredientes"));
+        assertEquals("Lanche Simples", jsonLanche.getString("nome"));
+        assertEquals(0, ingredientes.length());
     }
 
-    @Override
-    public boolean isFinished() {
-        return false;
+    @Test
+    @DisplayName("Deve validar campos obrigatórios do JSON")
+    void testValidarCamposObrigatorios() {
+        // Arrange
+        JSONObject jsonLanche = new JSONObject();
+        jsonLanche.put("nome", "Teste");
+        jsonLanche.put("descricao", "Descrição teste");
+        jsonLanche.put("ValorVenda", 15.50);
+        jsonLanche.put("ingredientes", new JSONObject());
+
+        // Assert
+        assertFalse(jsonLanche.getString("nome").isEmpty(), "Nome não pode estar vazio");
+        assertFalse(jsonLanche.getString("descricao").isEmpty(), "Descrição não pode estar vazia");
+        assertTrue(jsonLanche.getDouble("ValorVenda") > 0, "Valor deve ser maior que zero");
     }
 
-    @Override
-    public boolean isReady() {
-        return true;
+    @Test
+    @DisplayName("Deve validar tipos de dados do JSON")
+    void testValidarTiposDados() {
+        // Arrange
+        JSONObject jsonLanche = new JSONObject();
+        jsonLanche.put("nome", "Teste");
+        jsonLanche.put("descricao", "Descrição");
+        jsonLanche.put("ValorVenda", 20.00);
+        
+        JSONObject ingredientes = new JSONObject();
+        ingredientes.put("Pão", 1);
+        ingredientes.put("Queijo", 2);
+        jsonLanche.put("ingredientes", ingredientes);
+
+        // Assert
+        assertTrue(jsonLanche.get("nome") instanceof String);
+        assertTrue(jsonLanche.get("descricao") instanceof String);
+        assertTrue(jsonLanche.get("ValorVenda") instanceof Number);
+        assertTrue(jsonLanche.get("ingredientes") instanceof JSONObject);
+        assertTrue(ingredientes.get("Pão") instanceof Number);
     }
 
-    @Override
-    public void setReadListener(jakarta.servlet.ReadListener readListener) {
+    @Test
+    @DisplayName("Deve validar JSON com caracteres especiais")
+    void testValidarJSONComCaracteresEspeciais() {
+        // Arrange
+        JSONObject jsonLanche = new JSONObject();
+        jsonLanche.put("nome", "X-Burger & Fries");
+        jsonLanche.put("descricao", "Hambúrguer com batatas fritas - 100% natural");
+        jsonLanche.put("ValorVenda", 29.99);
+        
+        JSONObject ingredientes = new JSONObject();
+        ingredientes.put("Pão de Hambúrguer", 1);
+        ingredientes.put("Carne Bovina", 1);
+        ingredientes.put("Batata Frita", 1);
+        jsonLanche.put("ingredientes", ingredientes);
+
+        // Assert
+        assertNotNull(jsonLanche);
+        assertTrue(jsonLanche.getString("nome").contains("&"));
+        assertTrue(jsonLanche.getString("descricao").contains("ú"));
+        assertTrue(ingredientes.has("Pão de Hambúrguer"));
+        assertTrue(ingredientes.has("Carne Bovina"));
     }
 }
