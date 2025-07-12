@@ -11,7 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import DAO.DaoToken;
+import dao.DaoToken;
 import Helpers.ValidadorCookie;
 import jakarta.servlet.http.Cookie;
 
@@ -19,7 +19,7 @@ import jakarta.servlet.http.Cookie;
 public class ValidadorCookieTest {
 
     @Mock
-    private DaoToken mockDaoToken; 
+    private dao.DaoToken mockDaoToken; 
 
     @InjectMocks
     private ValidadorCookie validadorCookie; 
