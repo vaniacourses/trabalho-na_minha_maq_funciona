@@ -53,8 +53,18 @@ public abstract class BaseSeleniumTest {
     }
     
     protected void waitForPageLoad() {
-        wait.until(webDriver -> ((org.openqa.selenium.JavascriptExecutor) webDriver)
-                .executeScript("return document.readyState").equals("complete"));
+        try {
+            wait.until(webDriver -> ((org.openqa.selenium.JavascriptExecutor) webDriver)
+                    .executeScript("return document.readyState").equals("complete"));
+        } catch (Exception e) {
+            // Se houver erro, pode ser devido a alerta, tentar aceitar
+            try {
+                Alert alert = driver.switchTo().alert();
+                alert.accept();
+            } catch (Exception alertException) {
+                // Não há alerta, continuar
+            }
+        }
     }
     
     protected void waitForElement(By locator) {

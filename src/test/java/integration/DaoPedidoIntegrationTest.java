@@ -19,7 +19,7 @@ public class DaoPedidoIntegrationTest {
     }
     
     @Test
-    @Disabled("Teste desabilitado para evitar erros de banco de dados em ambiente de CI/CD")
+    @Disabled("Teste desabilitado para evitar erros de banco de dados")
     void testSalvarPedidoIntegration() {
         // Criar objetos reais (não mocks)
         Cliente cliente = new Cliente();
