@@ -25,6 +25,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author gabriel
  */
 public class getRelatorioGastos extends HttpServlet {
+    
     private final ValidadorCookie validador;
     private final DaoRelatorio dao;
 
@@ -89,7 +90,7 @@ public class getRelatorioGastos extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -103,7 +104,7 @@ public class getRelatorioGastos extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
