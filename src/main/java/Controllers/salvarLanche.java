@@ -30,6 +30,21 @@ import dao.DaoLanche;
  * @author kener_000
  */
 public class salvarLanche extends HttpServlet {
+    private DaoLanche lancheDao;
+    private DaoIngrediente ingredienteDao;
+    private ValidadorCookie validadorCookie;
+
+    public salvarLanche() {
+        this.lancheDao = new DaoLanche();
+        this.ingredienteDao = new DaoIngrediente();
+        this.validadorCookie = new ValidadorCookie();
+    }
+
+    public salvarLanche(DaoLanche lancheDao, DaoIngrediente ingredienteDao, ValidadorCookie validadorCookie) {
+        this.lancheDao = lancheDao;
+        this.ingredienteDao = ingredienteDao;
+        this.validadorCookie = validadorCookie;
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,58 +62,45 @@ public class salvarLanche extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
         String json = "";
-        
-        ////////Validar Cookie
+
         boolean resultado = false;
-        
-        try{
-        Cookie[] cookies = request.getCookies();
-        ValidadorCookie validar = new ValidadorCookie();
-        
-        resultado = validar.validarFuncionario(cookies);
-        }catch(java.lang.NullPointerException e){}
-        //////////////
-        
+        try {
+            Cookie[] cookies = request.getCookies();
+            resultado = validadorCookie.validarFuncionario(cookies);
+        } catch (java.lang.NullPointerException e) {}
+
         if ((br != null) && resultado) {
             json = br.readLine();
-            byte[] bytes = json.getBytes(ISO_8859_1); 
-            String jsonStr = new String(bytes, UTF_8);            
+            byte[] bytes = json.getBytes(ISO_8859_1);
+            String jsonStr = new String(bytes, UTF_8);
             JSONObject dados = new JSONObject(jsonStr);
             JSONObject ingredientes = dados.getJSONObject("ingredientes");
-       
+
             Lanche lanche = new Lanche();
-            
             lanche.setNome(dados.getString("nome"));
             lanche.setDescricao(dados.getString("descricao"));
             lanche.setValor_venda(dados.getDouble("ValorVenda"));
-            
-            DaoLanche lancheDao = new DaoLanche();
-            DaoIngrediente ingredienteDao = new DaoIngrediente();
-            
+
             lancheDao.salvar(lanche);
-            
             Lanche lancheComID = lancheDao.pesquisaPorNome(lanche);
-            
+
             Iterator<String> keys = ingredientes.keys();
-            
-            while(keys.hasNext()) {
-                
-                String key = keys.next(); 
+            while (keys.hasNext()) {
+                String key = keys.next();
                 Ingrediente ingredienteLanche = new Ingrediente();
                 ingredienteLanche.setNome(key);
-                
                 Ingrediente ingredienteComID = ingredienteDao.pesquisaPorNome(ingredienteLanche);
                 ingredienteComID.setQuantidade(ingredientes.getInt(key));
                 lancheDao.vincularIngrediente(lancheComID, ingredienteComID);
             }
-            
+
             try (PrintWriter out = response.getWriter()) {
-            out.println("Lanche Salvo com Sucesso!");
+                out.println("Lanche Salvo com Sucesso!");
             }
         } else {
             try (PrintWriter out = response.getWriter()) {
-            out.println("erro");
-        }
+                out.println("erro");
+            }
         }
         
         
