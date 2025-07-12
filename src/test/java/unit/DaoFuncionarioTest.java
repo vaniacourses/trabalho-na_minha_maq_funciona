@@ -148,7 +148,7 @@ public class DaoFuncionarioTest {
 
         Funcionario funcionarioTest = mock(Funcionario.class);
 
-        // Deve retornar false quando há exceção
+        // Deve retornar false quando há exceção (o método login não lança exceção, apenas retorna false)
         boolean resultado = daoFuncionarioTest.login(funcionarioTest);
         assertFalse(resultado);
     }

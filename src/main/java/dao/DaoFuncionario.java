@@ -112,7 +112,7 @@ public class DaoFuncionario {
             } else { return false; }
             
         } catch(SQLException e){
-            JOptionPane.showMessageDialog(null, e);
+            // JOptionPane.showMessageDialog(null, e); // Removido para evitar problemas em ambiente headless
         }
         
         return false;
