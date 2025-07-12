@@ -30,33 +30,38 @@ public abstract class BaseSeleniumTest {
         driver = new ChromeDriver(options);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         
-        // Configurar para aceitar alertas automaticamente
-        driver.switchTo().alert().accept();
+        // Configurar timeouts
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
     }
     
     @AfterEach
     public void tearDown() {
         if (driver != null) {
             try {
-                // Tentar aceitar qualquer alerta antes de fechar
-                driver.switchTo().alert().accept();
-            } catch (Exception e) {
-                // Ignorar se não houver alerta
+                // Tentar aceitar qualquer alert que possa estar aberto
+                try {
+                    Alert alert = driver.switchTo().alert();
+                    alert.accept();
+                } catch (Exception e) {
+                    // Ignorar se não há alert
+                }
+            } finally {
+                driver.quit();
             }
-            driver.quit();
         }
     }
     
-    protected void handleAlerts() {
-        try {
-            Alert alert = driver.switchTo().alert();
-            alert.accept();
-        } catch (Exception e) {
-            // Não há alerta para aceitar
-        }
+    protected void waitForPageLoad() {
+        wait.until(webDriver -> ((org.openqa.selenium.JavascriptExecutor) webDriver)
+                .executeScript("return document.readyState").equals("complete"));
     }
     
     protected void waitForElement(By locator) {
+        wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+    }
+    
+    protected void waitForElementClickable(By locator) {
         wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
     
@@ -64,8 +69,12 @@ public abstract class BaseSeleniumTest {
         wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
     
-    protected void waitForPageLoad() {
-        wait.until(webDriver -> ((org.openqa.selenium.JavascriptExecutor) webDriver)
-                .executeScript("return document.readyState").equals("complete"));
+    protected boolean isServerRunning() {
+        try {
+            driver.get("http://localhost:8080");
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 } 
