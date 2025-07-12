@@ -5,8 +5,6 @@
  */
 package Controllers;
 
-import DAO.DaoFuncionario;
-import DAO.DaoToken;
 import Model.Funcionario;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,6 +17,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
+
+import dao.DaoFuncionario;
+import dao.DaoToken;
 
 /**
  *

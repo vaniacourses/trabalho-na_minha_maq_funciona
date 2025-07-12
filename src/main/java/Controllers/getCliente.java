@@ -1,11 +1,13 @@
 package Controllers;
 
-import DAO.DaoCliente;
-import DAO.DaoEndereco;
 import Helpers.ValidadorCookie;
 import Model.Cliente;
 import Model.Endereco;
 import com.google.gson.Gson;
+
+import dao.DaoCliente;
+import dao.DaoEndereco;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
