@@ -239,7 +239,7 @@ Este documento apresenta a análise de qualidade do sistema de lanchonete "Na Mi
 
 ### 📊 Dashboard Interativo
 Para uma visualização mais detalhada e interativa dos dados de qualidade, acesse nosso **Dashboard de Qualidade ISO 25010**:
-**[🔗 Dashboard Gemini - Análise de Qualidade](https://gemini.google.com/share/1d4f58ce5ac6)**
+**[🔗 Dashboard - Análise de Qualidade](https://g.co/gemini/share/8a8707c99a8a)**
 
 ---
 
