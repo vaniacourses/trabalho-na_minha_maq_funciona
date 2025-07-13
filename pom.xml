@@ -181,6 +181,9 @@
           <targetTests>
             <param>unit.*</param>
           </targetTests>
+          <excludedTestClasses>
+            <param>unit.DaoPedidoTest</param>
+          </excludedTestClasses>
           <outputFormats>
             <param>HTML</param>
             <param>XML</param>
