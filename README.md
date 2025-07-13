@@ -1,116 +1,231 @@
-# APS-04-Lanchonete-Online-em-Java
+# APS-04 - Sistema de Lanchonete Online em Java
 
-## Sobre
-Com o objetivo de desenvolver a capacidade dos alunos e obter nota na disciplina APS (Atividades Práticas Supervisionadas), 
-foi proposto um projeto de desenvolvimento de um sistema para uma lanchonete online, onde o administrador consiga controlar 
-os pedidos da lanchonete e emitir relatórios. A lanchonete devera permitir o cadastro dos usuários, para que eles possam realizar seus pedidos, 
-e o cadastro de produtos, que ficariam por parte do administrador. Após o cadastro,  cliente poderá utilizar os ingredientes cadastrados para 
-criar seu lanche personalizado. O sistema deverá fazer o controle dos pedidos de forma que agrade os clientes, e controlar tambem o estoque de produtos.
+## 📋 Sobre o Projeto
 
-## Tecnologias Utilizadas
+Sistema web completo para gerenciamento de uma lanchonete online, desenvolvido como parte da disciplina APS (Atividades Práticas Supervisionadas). O sistema permite que administradores controlem pedidos e emitam relatórios, enquanto clientes podem se cadastrar, fazer pedidos personalizados e gerenciar suas compras.
 
-O Sistema funciona com base em um Frontend Utilizando HTML 5, CSS3 e JavaScript, e um Backend baseado em Java Web utilizando-se do Servidor Glassfish 4 
-e muito baseado no uso de Servlets para a Comunicação atraves de requisições. Além disso o Sistema utiliza das Bibliotecas gson-2.8.6 e json-20200518 
-Para a manipulação de Arquivos JSON dentro do Código Java, e de um Banco de Dados PostgreSQL, do qual o Código base também se encontra no repositório.
+### 🎯 Funcionalidades Principais
+- **Cadastro de Usuários**: Sistema completo de registro e autenticação
+- **Gestão de Produtos**: Cadastro e controle de lanches, bebidas e ingredientes
+- **Pedidos Personalizados**: Clientes podem montar seus próprios lanches
+- **Controle de Estoque**: Gestão automática de produtos
+- **Relatórios**: Sistema completo de relatórios para administradores
+- **Interface Responsiva**: Design moderno e adaptável
 
-## Alguns Screenshots
+## 🚀 Como Executar
 
-![alt text](https://i.ibb.co/BPn99jW/248f5162-df3a-4754-8ade-82b9784f94d8.jpg)
-![alt text](https://i.ibb.co/GM3r7Dd/daf6e1f9-676e-4a27-9669-80036dc52cce.jpg)
-![alt text](https://i.ibb.co/kXdFFq5/e378bda9-bcc8-4483-bb2f-f2143a79817e.jpg)
-![alt text](https://i.ibb.co/z7kqx4x/a5a0e3f3-3605-4d3f-b2ba-f54c2ef76f18.jpg)
-![alt text](https://i.ibb.co/C6kMZLW/c1bad7f9-c79a-4516-9d08-bc2548ee9880.jpg)
-![alt text](https://i.ibb.co/2321674/8a74fb26-1db0-49df-b2d7-2479d0567a4e.jpg)
-![alt text](https://i.ibb.co/2YSbvGZ/8d3386e3-d13b-4a42-b389-151fbadb1d77.jpg)
-
-# Sistema de Lanchonete
-
-Este é um sistema web para gerenciamento de uma lanchonete, permitindo clientes fazerem pedidos e funcionários gerenciarem produtos e pedidos.
-
-## Pré-requisitos
+### Pré-requisitos
 - Docker instalado
 - Docker Compose instalado
 
-## Como Executar
+### Passos para Execução
 
-1. Clone o repositório:
+1. **Clone o repositório:**
 ```bash
 git clone [URL_DO_REPOSITÓRIO]
-cd [NOME_DO_DIRETÓRIO]
+cd trabalho-na_minha_maq_funciona
 ```
 
-2. Execute o projeto usando Docker Compose:
+2. **Execute com Docker Compose:**
 ```bash
 docker-compose up --build
 ```
 
-Este comando irá:
-- Construir a imagem da aplicação
-- Iniciar o container do PostgreSQL
-- Executar o script de inicialização do banco de dados
-- Iniciar a aplicação
+### Acesso à Aplicação
+- **URL Principal**: `http://localhost:8080`
+- **Página Inicial**: `http://localhost:8080/view/home/home.html`
+- **Banco de Dados**: PostgreSQL em `localhost:5432`
 
-## Acessando a Aplicação
-- A aplicação estará disponível em: `http://localhost:8080`
-- Página inicial: `http://localhost:8080/view/home/home.html`
-- O banco de dados PostgreSQL estará disponível em:
-  - Host: localhost
-  - Porta: 5432
-  - Banco: lanchonete
-  - Usuário: postgres
-  - Senha: postgres
+### Credenciais Padrão
+- **Admin**: `admin` / `admin123`
+- **Cliente Teste**: `teste@teste.com` / `123456`
 
-## Credenciais Padrão
-- Usuário admin: admin
-- Senha admin: admin123
+## 📁 Estrutura do Projeto e Artefatos
 
-## Comandos Úteis
+### 📂 Código Fonte
+- **`src/main/java/`**: Código fonte Java
+  - **`Controllers/`**: Servlets e controladores
+  - **`dao/`**: Camada de acesso a dados
+  - **`Model/`**: Entidades do sistema
+  - **`Helpers/`**: Classes utilitárias
+- **`src/main/webapp/`**: Interface web
+  - **`view/`**: Páginas HTML
+  - **`assets/`**: Imagens e recursos
+  - **`styles/`**: Arquivos CSS
 
-Para parar a aplicação:
+### 🧪 Testes
+- **`src/test/java/unit/`**: [Testes Unitários e Estruturais](./src/test/java/unit/)
+  - Testes de cobertura de código
+  - Testes de mutação
+  - Testes de regras de negócio
+- **`src/test/java/integration/`**: [Testes de Integração](./src/test/java/integration/)
+  - Testes de persistência
+  - Testes de fluxos completos
+- **`src/test/java/selenium/`**: [Testes Funcionais](./src/test/java/selenium/)
+  - Testes de interface
+  - Testes end-to-end
+
+### 📊 Relatórios de Qualidade
+
+#### 📈 Cobertura de Código (JaCoCo)
+- **Relatório HTML**: `target/site/jacoco/index.html`
+- **Screenshots**: [📁 Pasta jacoco](./jacoco/)
+  - [Cobertura Geral](./jacoco/jacoco.png)
+  - [Cobertura Controllers](./jacoco/controllers.png)
+  - [Cobertura DAO](./jacoco/dao.png)
+  - [Cobertura Helpers](./jacoco/helpers.png)
+  - [Cobertura Model](./jacoco/model.png)
+
+#### 🧬 Mutation Testing (PIT)
+- **Relatório HTML**: `target/pit-reports/`
+- **Screenshots**: [📁 Pasta pit](./pit/)
+  - [Mutation Score Controllers](./pit/controllers.png)
+  - [Mutation Score DAO](./pit/dao.png)
+  - [Mutation Score Helpers](./pit/helpers.png)
+
+#### 🔍 Análise de Qualidade (SonarQube)
+- **Screenshots**: [📁 Pasta sonar prints](./sonar%20prints/)
+  - [Histórico de Qualidade](./sonar%20prints/history.png)
+  - [Qualidade Geral - Antes](./sonar%20prints/overall%20-%20antes.png)
+  - [Qualidade Geral - Depois](./sonar%20prints/overall%20-%20depois.png)
+  - [Issue 1 - Antes](./sonar%20prints/issue1%20-%20antes.png)
+  - [Issue 1 - Depois](./sonar%20prints/issue1%20-%20depois.png)
+  - [Issue 2 - Antes](./sonar%20prints/issue2%20-%20antes.png)
+  - [Issue 2 - Depois](./sonar%20prints/issue2%20-%20depois.png)
+  - [Issue 3 - Antes](./sonar%20prints/issue3%20-%20antes.png)
+  - [Issue 3 - Depois](./sonar%20prints/issue3%20-%20depois.png)
+  - [Issue 4 - Antes](./sonar%20prints/issue4%20-%20antes.png)
+  - [Issue 4 - Depois](./sonar%20prints/issue4%20-%20depois.png)
+
+### 📚 Documentação
+
+#### 📖 Documentos de Entrega
+- **`docs/`**: [📁 Pasta de Documentação](./docs/)
+  - [📄 Apresentação 1 - Testes CodeBurgers](./docs/Apresentação%201%20-%20Testes%20CodeBurgers.pdf)
+  - [📄 Casos de Teste](./docs/Casos%20de%20Teste.pdf)
+  - [📄 Entrega 2 - Trabalho QA](./docs/Entrega%202%20-%20trabalho%20QA.pptx)
+  - [📄 Plano de Teste - 2025.1](./docs/Plano%20de%20Teste%20-%202025.1%20-%20Trab%20-%20na%20minha%20maq%20funciona.pdf)
+  - [📄 Qualidade ISO25010](./docs/QUALIDADE_ISO25010.md)
+  - [📄 Como Executar](./docs/HOWTO-RUN.md)
+
+### ⚙️ Configuração e Deploy
+- **`docker-compose.yml`**: Configuração dos serviços Docker
+- **`Dockerfile`**: Instruções para construção da imagem
+- **`banco.sql`**: Script de inicialização do banco de dados
+- **`pom.xml`**: Configuração Maven e dependências
+- **`sonar-project.properties`**: Configuração SonarQube
+
+## 🧪 Execução de Testes
+
+### Testes Unitários
 ```bash
+mvn test
+```
+
+### Testes de Integração
+```bash
+mvn verify
+```
+
+### Testes Funcionais (Selenium)
+```bash
+# Requer servidor rodando em localhost:8080
+mvn test -Dtest=SeleniumTestSuite -Dselenium.enabled=true
+```
+
+### Cobertura de Código
+```bash
+mvn clean test jacoco:report
+```
+
+### Mutation Testing
+```bash
+mvn org.pitest:pitest-maven:mutationCoverage
+```
+
+### Análise SonarQube
+```bash
+mvn sonar:sonar
+```
+
+## 🗂️ Rotas da Aplicação
+
+### 👤 Área do Cliente
+- **Página Inicial**: `http://localhost:8080/view/home/home.html`
+- **Cardápio**: `http://localhost:8080/view/menu/menu.html`
+- **Montar Lanche**: `http://localhost:8080/view/montarLanche/montarLanche.html`
+- **Carrinho**: `http://localhost:8080/view/carrinho/carrinho.html`
+- **Cadastro**: `http://localhost:8080/view/cadastro/cadastro.html`
+- **Login**: `http://localhost:8080/view/login/login.html`
+
+### 👨‍💼 Área Administrativa
+- **Login Funcionário**: `http://localhost:8080/view/login/login_Funcionario.html`
+- **Painel Principal**: `http://localhost:8080/view/painel/painel.html`
+- **Gestão de Estoque**: `http://localhost:8080/view/estoque/estoque.html`
+- **Relatórios**: `http://localhost:8080/view/relatorio/relatorio.html`
+
+## 🔧 Comandos Úteis
+
+### Docker
+```bash
+# Parar aplicação
 docker-compose down
-```
 
-Para ver os logs:
-```bash
+# Ver logs
 docker-compose logs -f
-```
 
-Para reconstruir e reiniciar os containers:
-```bash
+# Reconstruir containers
 docker-compose up --build --force-recreate
 ```
 
-## Estrutura do Projeto
-- `docker-compose.yml`: Configuração dos serviços Docker
-- `Dockerfile`: Instruções para construir a imagem da aplicação
-- `banco.sql`: Script de inicialização do banco de dados
-- `src/`: Código fonte da aplicação
-- `web/`: Arquivos da interface web
+### Desenvolvimento
+```bash
+# Limpar e compilar
+mvn clean compile
 
-## Rotas Disponíveis
+# Executar todos os testes
+mvn clean verify
 
-### Usuário Comum (Cliente)
-- `http://localhost:8080/view/home/home.html` - Página inicial
-- `http://localhost:8080/view/menu/menu.html` - Cardápio com lanches e bebidas
-- `http://localhost:8080/view/montarLanche/montarLanche.html` - Monte seu próprio lanche
-- `http://localhost:8080/view/carrinho/carrinho.html` - Carrinho de compras
-- `http://localhost:8080/view/cadastro/cadastro.html` - Cadastro de novo cliente
-- `http://localhost:8080/view/login/login.html` - Login de cliente
+# Gerar relatórios completos
+mvn clean test jacoco:report org.pitest:pitest-maven:mutationCoverage
+```
 
-### Administrador
-- `http://localhost:8080/view/login/login_Funcionario.html` - Login de funcionário/admin
-- `http://localhost:8080/view/painel/painel.html` - Painel de controle principal
-  - Abrir/Fechar lanchonete
-  - Cadastrar lanches
-  - Cadastrar bebidas
-  - Cadastrar ingredientes
-  - Cadastrar funcionários
-- `http://localhost:8080/view/estoque/estoque.html` - Gerenciamento de estoque
-  - Controle de lanches
-  - Controle de bebidas
-  - Controle de ingredientes
-- `http://localhost:8080/view/relatorio/relatorio.html` - Relatórios
-  - Relatório de bebidas por pedidos
-  - Relatório de lanches detalhado
-  - Relatório de gastos
+## 📋 Checklist de Artefatos Entregues
+
+### ✅ Código Fonte
+- [x] Controllers (Servlets)
+- [x] DAO (Data Access Objects)
+- [x] Model (Entidades)
+- [x] Helpers (Utilitários)
+- [x] Interface Web (HTML/CSS/JS)
+
+### ✅ Testes
+- [x] Testes Unitários
+- [x] Testes de Integração
+- [x] Testes Funcionais (Selenium)
+- [x] Testes de Mutação
+
+### ✅ Relatórios de Qualidade
+- [x] Cobertura de Código (JaCoCo)
+- [x] Mutation Testing (PIT)
+- [x] Análise SonarQube
+
+### ✅ Documentação
+- [x] Plano de Testes
+- [x] Casos de Teste
+- [x] Relatórios de Qualidade
+- [x] Manual de Execução
+
+### ✅ Configuração
+- [x] Docker Compose
+- [x] Scripts de Banco
+- [x] Configuração Maven
+- [x] Configuração SonarQube
+
+---
+
+## 👥 Equipe
+Desenvolvido como parte da disciplina APS - Atividades Práticas Supervisionadas
+
+## 📄 Licença
+Este projeto é parte de um trabalho acadêmico
