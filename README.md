@@ -12,34 +12,6 @@ Sistema web completo para gerenciamento de uma lanchonete online, desenvolvido c
 - **Relatórios**: Sistema completo de relatórios para administradores
 - **Interface Responsiva**: Design moderno e adaptável
 
-## 🚀 Como Executar
-
-### Pré-requisitos
-- Docker instalado
-- Docker Compose instalado
-
-### Passos para Execução
-
-1. **Clone o repositório:**
-```bash
-git clone [URL_DO_REPOSITÓRIO]
-cd trabalho-na_minha_maq_funciona
-```
-
-2. **Execute com Docker Compose:**
-```bash
-docker-compose up --build
-```
-
-### Acesso à Aplicação
-- **URL Principal**: `http://localhost:8080`
-- **Página Inicial**: `http://localhost:8080/view/home/home.html`
-- **Banco de Dados**: PostgreSQL em `localhost:5432`
-
-### Credenciais Padrão
-- **Admin**: `admin` / `admin123`
-- **Cliente Teste**: `teste@teste.com` / `123456`
-
 ## 📁 Estrutura do Projeto e Artefatos
 
 ### 📂 Código Fonte
@@ -70,32 +42,12 @@ docker-compose up --build
 #### 📈 Cobertura de Código (JaCoCo)
 - **Relatório HTML**: `target/site/jacoco/index.html`
 - **Screenshots**: [📁 Pasta jacoco](./jacoco/)
-  - [Cobertura Geral](./jacoco/jacoco.png)
-  - [Cobertura Controllers](./jacoco/controllers.png)
-  - [Cobertura DAO](./jacoco/dao.png)
-  - [Cobertura Helpers](./jacoco/helpers.png)
-  - [Cobertura Model](./jacoco/model.png)
 
 #### 🧬 Mutation Testing (PIT)
 - **Relatório HTML**: `target/pit-reports/`
 - **Screenshots**: [📁 Pasta pit](./pit/)
-  - [Mutation Score Controllers](./pit/controllers.png)
-  - [Mutation Score DAO](./pit/dao.png)
-  - [Mutation Score Helpers](./pit/helpers.png)
-
 #### 🔍 Análise de Qualidade (SonarQube)
 - **Screenshots**: [📁 Pasta sonar prints](./sonar%20prints/)
-  - [Histórico de Qualidade](./sonar%20prints/history.png)
-  - [Qualidade Geral - Antes](./sonar%20prints/overall%20-%20antes.png)
-  - [Qualidade Geral - Depois](./sonar%20prints/overall%20-%20depois.png)
-  - [Issue 1 - Antes](./sonar%20prints/issue1%20-%20antes.png)
-  - [Issue 1 - Depois](./sonar%20prints/issue1%20-%20depois.png)
-  - [Issue 2 - Antes](./sonar%20prints/issue2%20-%20antes.png)
-  - [Issue 2 - Depois](./sonar%20prints/issue2%20-%20depois.png)
-  - [Issue 3 - Antes](./sonar%20prints/issue3%20-%20antes.png)
-  - [Issue 3 - Depois](./sonar%20prints/issue3%20-%20depois.png)
-  - [Issue 4 - Antes](./sonar%20prints/issue4%20-%20antes.png)
-  - [Issue 4 - Depois](./sonar%20prints/issue4%20-%20depois.png)
 
 ### 📚 Documentação
 
@@ -106,7 +58,34 @@ docker-compose up --build
   - [📄 Entrega 2 - Trabalho QA](./docs/Entrega%202%20-%20trabalho%20QA.pptx)
   - [📄 Plano de Teste - 2025.1](./docs/Plano%20de%20Teste%20-%202025.1%20-%20Trab%20-%20na%20minha%20maq%20funciona.pdf)
   - [📄 Qualidade ISO25010](./docs/QUALIDADE_ISO25010.md)
-  - [📄 Como Executar](./docs/HOWTO-RUN.md)
+
+## 🚀 Como Executar
+
+### Pré-requisitos
+- Docker instalado
+- Docker Compose instalado
+
+### Passos para Execução
+
+1. **Clone o repositório:**
+```bash
+git clone [URL_DO_REPOSITÓRIO]
+cd trabalho-na_minha_maq_funciona
+```
+
+2. **Execute com Docker Compose:**
+```bash
+docker-compose up --build
+```
+
+### Acesso à Aplicação
+- **URL Principal**: `http://localhost:8080`
+- **Página Inicial**: `http://localhost:8080/view/home/home.html`
+- **Banco de Dados**: PostgreSQL em `localhost:5432`
+
+### Credenciais Padrão
+- **Admin**: `admin` / `admin123`
+- **Cliente Teste**: `teste@teste.com` / `123456`
 
 ### ⚙️ Configuração e Deploy
 - **`docker-compose.yml`**: Configuração dos serviços Docker
